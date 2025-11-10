@@ -3,6 +3,7 @@ import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
+//registration
 export const register = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, password, role } = req.body;
@@ -34,13 +35,18 @@ export const register = async (req, res) => {
             success: true
         });
     } catch (error) {
-        console.log("Error");
+        console.log(error);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false
+        })
     }
 }
 
+//login
 export const login = async (req, res) => {
     try {
-        const [email, password, role] = req.body;
+        const { email, password, role } = req.body;
         if (!email || !password || !role) {
             return res.status(400).json({
                 message: "Something is missing",
@@ -90,7 +96,7 @@ export const login = async (req, res) => {
             success: true
         })
     } catch (error) {
-        console.log("Error");
+        console.log(error);
         return res.status(400).json({
             message: "Something went wrong ! ",
             success: false
@@ -98,6 +104,7 @@ export const login = async (req, res) => {
     }
 }
 
+//logout
 export const logout = async (req, res) => {
     try {
         return res.status(200).cookie("token", " ", { maxAge: 0 }).json({
@@ -105,64 +112,66 @@ export const logout = async (req, res) => {
             success: true
         })
     } catch (error) {
-        console.log(error)
+        console.log(error);
+        return res.status(500).json({
+            message: "Internal server error",
+            success: false
+        })
     }
 }
 
+//update-profile
 export const updateProfile = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
         const file = req.file;
-        if (!fullname || !email || !phoneNumber || !bio || !skills) {
-            return res.status(400).json({
-                message: "Something is missing",
-                success: false
-            });
-        };
+
 
         //cloudinary .... 
-
-        const skillsArray = skills.split(",");
+        let skillsArray=[];
+        if (skills && typeof skills === "string"){ 
+        skillsArray = skills.split(",");
+    } 
         const userId = req.id; //middleware authentication
-        let user = await User.findById(userId);
-        if (!user) {
-            return res.status(400).json({
-                message: "User not found.",
-                success: false
-            })
-        }
-
-        //updating data
-        user.fullname = fullname,
-            user.email = email,
-            user.phoneNumber = phoneNumber,
-            user.profile.bio = bio,
-            user.profile.skills = skillsArray
-
-        //resume....
-
-
-        await user.save();
-
-        user = {
-            _id: user._id,
-            fullname: user.fullname,
-            email: user.email,
-            phoneNumber: user.phoneNumber,
-            role: user.role,
-            profile: user.profile
-        }
-
-        return res.status(200).json({
-            message:"Profile updated successfully.",
-            user,
-            success:true
+    let user = await User.findById(userId);
+    if (!user) {
+        return res.status(400).json({
+            message: "User not found.",
+            success: false
         })
-
-    } catch (error) {
-        console.log(error);
     }
+
+    //updating data - (user ne jo bhi update kra hoga vo update ho jaayega)
+    if (fullname) user.fullname = fullname
+    if (email) user.email = email
+    if (phoneNumber) user.phoneNumber = phoneNumber
+    if (bio) user.profile.bio = bio
+    if (skills) user.profile.skills = skillsArray
+
+    //resume....
+
+
+    await user.save();
+
+    user = {
+        _id: user._id,
+        fullname: user.fullname,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+        role: user.role,
+        profile: user.profile
+    }
+
+    return res.status(200).json({
+        message: "Profile updated successfully.",
+        user,
+        success: true
+    })
+
+} catch (error) {
+    console.log(error);
 }
+};
 
 //OVERALL FLOW
 // 1. User Registration (Sign Up)

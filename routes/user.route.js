@@ -9,7 +9,7 @@ router.route("/login").post(login);
 router.route("/profile/update").post(isAuthenticated,updateProfile);
 
 export default router;
-
+    
 //This file connects your API URLs to your functions.
 
 // For example:
