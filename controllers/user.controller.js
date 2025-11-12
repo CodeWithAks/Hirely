@@ -142,6 +142,8 @@ export const updateProfile = async (req, res) => {
     }
 
     //updating data - (user ne jo bhi update kra hoga vo update ho jaayega)
+    if (!user.profile) user.profile = {};
+
     if (fullname) user.fullname = fullname
     if (email) user.email = email
     if (phoneNumber) user.phoneNumber = phoneNumber

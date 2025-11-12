@@ -1,5 +1,5 @@
 import express from "express";
-import {login,register,updateProfile} from "../controllers/user.controller.js";
+import {login,logout,register,updateProfile} from "../controllers/user.controller.js";
 import isAuthenticated from "../middlewares/isAuthenticated.js";
 
 const router = express.Router();
@@ -7,11 +7,11 @@ const router = express.Router();
 router.route("/register").post(register);
 router.route("/login").post(login);
 router.route("/profile/update").post(isAuthenticated,updateProfile);
+router.route("/logout").post(logout);   
 
 export default router;
     
 //This file connects your API URLs to your functions.
-
 // For example:
 // /register will run the register() function
 // /profile/update will run updateProfile() only if the user is logged in (checked by isAuthenticated)
