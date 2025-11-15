@@ -1,4 +1,4 @@
-import { Job } from "../models/job.model";
+import { Job } from "../models/job.model.js";
 
 //to post job - recruiter
 export const postJob = async(req,res) => {
@@ -17,10 +17,10 @@ export const postJob = async(req,res) => {
             title,
             description,
             requirements:requirements.split(","), //kyunki vo string hogi
-            salary,
+            salary:Number(salary),
             location,
             jobType,
-            experience,
+            experienceLevel:experience,
             position,
             company:companyId,
             created_by:userId
@@ -45,7 +45,9 @@ export const getAllJobs = async(req,res) => {
                 {description:{$regex:keyword,$options:"i"}},
             ]
         }
-        const jobs = await Job.find(query);
+        const jobs = await Job.find(query).populate({ //populate se company ki inf. aayegi 
+            path:"company"
+        }).sort({createdAt:-1});
         if(!jobs){
             return res.status(404).json({
                 message:"Job not found",
@@ -90,14 +92,14 @@ export const getAdminJobs = async(req,res) => {
         const jobs = await Job.find({
             created_by:adminId
         })
-        if(!job){
+        if(!jobs){
             return res.status(404).json({
                 message:"Jobs not found",
                 success:false
             })
         };
         return res.status(200).json({
-            job,
+            jobs,
             success:true
         })
     } catch (error) {
