@@ -1,52 +1,103 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '@radix-ui/react-label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import { RadioGroup } from '@radix-ui/react-radio-group'
+import { Link } from 'react-router-dom'
 
 const signup = () => {
-  return (
-    <div>
-        <Navbar/>
-        <div className='flex items-center justify-center max-w-7xl mx-auto'>
-            <form action="" className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
-                <h1 className='font-bold text-xl mb-5'>Sign Up</h1>
 
-                {/* full name */}
-                <div className='my-2'>
-                    <Label>Full Name</Label>
-                    <Input type="text" placeholder="Enter your full name"></Input>
-                </div>
+    const [input, setInput] = useState({
+        fullname: "",
+        email: "",
+        phoneNumber: "",
+        password: "",
+        role: "",
+        file: ""
+    });
 
-                {/* email */}
-                <div className='my-2'>
-                    <Label>Email</Label>
-                    <Input type="email" placeholder="Enter your email"></Input>
-                </div>
+    const changeEventHandler = (e) => {
+        setInput({ ...input, [e.target.name]: e.target.value })
+    }
 
-                {/* Phone Number */}
-                <div className='my-2'>
-                    <Label>Phone Number</Label>
-                    <Input type="number" placeholder="Enter your phone number"></Input>
-                </div>
+    const changeFileHandler = (e) => {
+        setInput({ ...input, file: e.target.files?.[0] });
+    }
 
-                {/* Password */}
-                <div className='my-2'>
-                    <Label>Password</Label>
-                    <Input type="password" placeholder="Enter your password"></Input>
-                </div>
-            </form>
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        console.log(input);
+        
+    }
 
-            {/* Recruiter/candidate */}
-            <div>
-                <h1>I am a ...</h1>
-                <Button>Student</Button>
-                <Button>Recruiter</Button>
+    return (
+        <div>
+            <Navbar />
+            <div className='flex items-center justify-center max-w-7xl mx-auto'>
+                <form onSubmit={submitHandler} className='w-1/2 border border-gray-200 rounded-md p-4 my-10'>
+                    <h1 className='font-bold text-xl mb-5'>Sign Up</h1>
+
+                    {/* full name */}
+                    <div className='my-2'>
+                        <Label>Full Name</Label>
+                        <Input type="text" placeholder="Akshara Goyal" value={input.fullname} name="fullname" onChange={changeEventHandler} ></Input>
+                    </div>
+
+                    {/* email */}
+                    <div className='my-2'>
+                        <Label>Email</Label>
+                        <Input type="email" placeholder="aks123@email.com" value={input.email} name="email" onChange={changeEventHandler}></Input>
+                    </div>
+
+                    {/* Phone Number */}
+                    <div className='my-2'>
+                        <Label>Phone Number</Label>
+                        <Input type="number" placeholder="8957859348" value={input.phoneNumber} name="phoneNumber" onChange={changeEventHandler}></Input>
+                    </div>
+
+                    {/* Password */}
+                    <div className='my-2'>
+                        <Label>Password</Label>
+                        <Input type="password" placeholder="Enter your password" value={input.password} name="password" onChange={changeEventHandler}></Input>
+                    </div>
+
+                    {/* Role Selection */}
+                    <div className='flex items-center justify-between'>
+                        <RadioGroup className='flex items-center gap-4 my-5'>
+                            <div className="flex items-center gap-3">
+                                <Input type="radio" name="role" value="student" className="cursor-pointer" 
+                                checked={input.role==='student'}
+                                onChange={changeEventHandler}
+                                />
+                                <Label htmlFor="r1">Student</Label>
+                            </div>
+                            <div className="flex items-center gap-3">
+                                <Input type="radio" name="role" value="recruiter" className="cursor-pointer"
+                                checked={input.role==='recruiter'}
+                                onChange={changeEventHandler}
+                                />
+                                <Label htmlFor="r2">Recruiter</Label>
+                            </div>
+                        </RadioGroup>
+                    </div>
+
+                    {/* Profile */}
+                    <div className='flex flex-col space-y-1'>
+                        <Label className="text-gray-700 font-medium">Profile</Label>
+                        <Input accept="image/*" type="file" className="cursor-pointer" 
+                        onChange={changeFileHandler}
+                        />
+                    </div>
+
+                    {/* Signup Button */}
+                    <Button type="submit" className="w-full my-4">Signup</Button>
+                    <span>Already have an account ? <Link to="/login" className="text-blue-600">Login</Link></span>
+                </form>
+
             </div>
         </div>
-    </div>
-    
-  )
+    )
 }
 
 export default signup
