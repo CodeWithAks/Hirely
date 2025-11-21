@@ -4,11 +4,14 @@ import { Label } from '@radix-ui/react-label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { RadioGroup } from '@radix-ui/react-radio-group'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
+import { USER_API_END_POINT } from '@/utils/constant'
+import { toast } from 'sonner'
 
-const signup = () => {
+const Signup = () => {
 
-    const [input, setInput] = useState({
+    const [input, setInput] = useState({ //form ka sara data yha store hoga 
         fullname: "",
         email: "",
         phoneNumber: "",
@@ -16,8 +19,11 @@ const signup = () => {
         role: "",
         file: ""
     });
+    const navigate = useNavigate(); //dusre pg pe jaane k liye 
 
     const changeEventHandler = (e) => {
+        console.log(e.target.name);  //vo specific field(fullname,email)
+        console.log(e.target.value);  //jo value usmein humne add kri h (fullname->"Akshara")
         setInput({ ...input, [e.target.name]: e.target.value })
     }
 
@@ -26,8 +32,34 @@ const signup = () => {
     }
 
     const submitHandler = async (e) => {
-        e.preventDefault();
-        console.log(input);
+        e.preventDefault();   //pg reload hone se rokta h
+
+
+        const formData = new FormData();
+        formData.append("fullname",input.fullname);
+        formData.append("email",input.email);
+        formData.append("phoneNumber",input.phoneNumber);
+        formData.append("password",input.password);
+        formData.append("role",input.role);
+        if(input.file){
+            formData.append("file",input.file);
+        }
+
+        try {
+            const res = await axios.post(`${USER_API_END_POINT}/register`,formData,{
+                headers:{
+                    "Content-Type":"multipart/form-data"
+                },
+                withCredentials:true,
+            });
+            if(res.data.success){  //agr data mil gya to
+                navigate("/login"); 
+               toast.success(res.data.message); 
+            } 
+        } catch (error) {
+            console.log(error);
+            toast.error(error.response.data.message);
+        }
         
     }
 
@@ -53,7 +85,7 @@ const signup = () => {
                     {/* Phone Number */}
                     <div className='my-2'>
                         <Label>Phone Number</Label>
-                        <Input type="number" placeholder="8957859348" value={input.phoneNumber} name="phoneNumber" onChange={changeEventHandler}></Input>
+                        <Input type="text" placeholder="8957859348" value={input.phoneNumber} name="phoneNumber" onChange={changeEventHandler}></Input>
                     </div>
 
                     {/* Password */}
@@ -100,4 +132,4 @@ const signup = () => {
     )
 }
 
-export default signup
+export default Signup
