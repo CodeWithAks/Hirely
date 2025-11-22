@@ -4,7 +4,13 @@ import { Label } from '@radix-ui/react-label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
 import { RadioGroup } from '@radix-ui/react-radio-group'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
+import axios from 'axios'
+import { USER_API_END_POINT } from '@/utils/constant'
+import { useDispatch, useSelector } from 'react-redux'
+import { setLoading } from '@/redux/authSlice'
+import { Loader2 } from 'lucide-react'
 
 const login = () => {
 
@@ -13,6 +19,10 @@ const login = () => {
     password: "",
     role: ""
   });
+
+  const { loading } = useSelector(store => store.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const changeEventHandler = (e) => {
     setInput({ ...input, [e.target.name]: e.target.value })
@@ -24,12 +34,14 @@ const login = () => {
 
 
     try {
+      dispatch(setLoading(true)); //login hone pe load hoga 
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
         headers: {
           "Content-Type": "application/json"
         },
         withCredentials: true,
       });
+      console.log(res.data.success); //true
       if (res.data.success) {  //agr data mil gya to
         navigate("/");
         toast.success(res.data.message);
@@ -37,6 +49,8 @@ const login = () => {
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+    } finally {
+      dispatch(setLoading(false)); //ab rokdo 
     }
 
   }
@@ -80,9 +94,12 @@ const login = () => {
               </div>
             </RadioGroup>
           </div>
+          {
+            loading ? <Button className="w-full my-4"><Loader2 className='mr-2 h-4 w-4 animate-spin' />Please wait</Button> : <Button type="submit" className="w-full my-4">Login</Button>
+          }
 
           {/* Login Button */}
-          <Button type="submit" className="w-full my-4">Login</Button>
+          {/* <Button type="submit" className="w-full my-4">Login</Button> */}
           <span>Don't have an account ? <Link to="/signup" className="text-blue-600">Signup</Link></span>
         </form>
 
