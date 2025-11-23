@@ -14,7 +14,7 @@ const HeroSection = () => {
                     placeholder='Find Your Dream Jobs'
                     className='outline-none border-none w-full'
                     />
-                    <Button className="rounded-r-full bg-blue-400">
+                    <Button className="rounded-r-full bg-blue-400 hover:bg-blue-500 cursor-pointer">
                         <Search className='h-5 w-5'></Search>
                     </Button>
                 </div>
