@@ -3,7 +3,7 @@ import Navbar from '../shared/Navbar'
 import { Label } from '@radix-ui/react-label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
-import { RadioGroup } from '@radix-ui/react-radio-group'
+import { RadioGroup } from "@/components/ui/radio-group"
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant.js'

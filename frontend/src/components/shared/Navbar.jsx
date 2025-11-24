@@ -27,7 +27,7 @@ const Navbar = () => {
                         !user ? (
                             <div className='flex items-center gap-2'>
                                 <Link to="/login"><Button variant="outline" className="cursor-pointer">Login</Button></Link>
-                                <Link to="/signup"><Button className="bg-purple-500 hover:bg-purple-600 cursor-pointer">SignUp</Button></Link>
+                                <Link to="/signup"><Button className="bg-purple-600 hover:bg-purple-700 cursor-pointer">SignUp</Button></Link>
                             </div>
                         ) : (
                             <Popover>
