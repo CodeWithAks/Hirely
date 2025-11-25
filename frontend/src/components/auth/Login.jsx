@@ -9,7 +9,7 @@ import { toast } from 'sonner'
 import axios from 'axios'
 import { USER_API_END_POINT } from '@/utils/constant'
 import { useDispatch, useSelector } from 'react-redux'
-import { setLoading } from '@/redux/authSlice'
+import { setLoading, setUser } from '@/redux/authSlice'
 import { Loader2 } from 'lucide-react'
 
 const login = () => {
@@ -43,6 +43,7 @@ const login = () => {
       });
       console.log(res.data.success); //true
       if (res.data.success) {  //agr data mil gya to
+        dispatch(setUser(res.data.user)); //logged in user show kro 
         navigate("/");
         toast.success(res.data.message);
       }

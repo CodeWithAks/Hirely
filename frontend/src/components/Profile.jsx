@@ -1,0 +1,77 @@
+import React from 'react'
+import Navbar from './shared/Navbar'
+import { Avatar } from '@radix-ui/react-avatar'
+import { AvatarImage } from './ui/avatar'
+import { Button } from './ui/button'
+import { Contact, Mail, Pen } from 'lucide-react'
+import { Badge } from './ui/badge'
+import { Label } from './ui/label'
+import AppliedJobsTable from './AppliedJobsTable'
+
+const skills = ["Html", "Css", "Javascript", "React.js"]
+
+const Profile = () => {
+  const isResume = true;
+
+  return (
+    <div>
+      <Navbar />
+      <div className='max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8'>
+
+        {/* profile pic and bio */}
+        <div className='flex justify-between'>
+          <div className='flex items-center gap-4'>
+            <Avatar>
+              <AvatarImage src="https://www.freepnglogos.com/uploads/company-logo-png/company-logo-transparent-png-19.png" className="h-24 w-28" alt="profile" />
+            </Avatar>
+            <div>
+              <h1 className='font-mdeium text-xl'>Full Name</h1>
+              <p>Add your bio here</p>
+            </div>
+          </div>
+
+          <Button className="text-right" variant="outline"><Pen /></Button>
+        </div>
+
+        {/* Mail and contact info */}
+        <div className='my-5'>
+          <div className='flex items-center gap-3 my-2'>
+            <Mail />
+            <span>aks@email.com</span>
+          </div>
+
+          <div className='flex items-center gap-3 my-2'>
+            <Contact />
+            <span>9870119888</span>
+          </div>
+        </div>
+
+        {/* Skills */}
+        <div className='my-5'>
+          <h1>Skills</h1>
+          <div className='flex items-center gap-1'>
+            {
+              skills.length != 0 ? skills.map((item, idx) => <Badge key={idx}>{item}</Badge>) : <span>Not Applicable</span>
+            }
+          </div>
+        </div>
+
+        {/* Resume */}
+        <div className='grid w-full max-w-sm items-center gap-1.5'>
+          <Label className="text-md font-bold">Resume</Label>
+          {
+            isResume ? <a target="blank" href='#' className='text-blue-500 w-full hover:underline'>Akshara Goyal</a> : <span>Not Applicable</span>
+          }
+        </div>
+      </div>
+
+      {/* Appplication Table */}
+        <div className='max-w-4xl mx-auto bg-white rounded-2xl'>
+          <h1 className='font-bold text-lg my-5'>Applied Jobs</h1>
+          <AppliedJobsTable/>
+        </div>
+    </div>
+  )
+}
+
+export default Profile
