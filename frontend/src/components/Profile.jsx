@@ -8,12 +8,14 @@ import { Badge } from './ui/badge'
 import { Label } from './ui/label'
 import AppliedJobsTable from './AppliedJobsTable'
 import UpdateProfiledDialogue from './UpdateProfiledDialogue'
+import { useSelector } from 'react-redux'
 
 const skills = ["Html", "Css", "Javascript", "React.js"];
 const isResume = true;
 
 const Profile = () => {
   const [open,setOpen] = useState(false);
+  const {user} = useSelector(store=>store.auth);
 
   return (
     <div>
@@ -27,8 +29,8 @@ const Profile = () => {
               <AvatarImage src="https://www.freepnglogos.com/uploads/company-logo-png/company-logo-transparent-png-19.png" className="h-24 w-28" alt="profile" />
             </Avatar>
             <div>
-              <h1 className='font-mdeium text-xl'>Full Name</h1>
-              <p>Add your bio here</p>
+              <h1 className='font-medium text-xl'>{user?.fullname}</h1>
+              <p>{user?.profile?.bio}</p>
             </div>
           </div>
 
@@ -40,12 +42,12 @@ const Profile = () => {
         <div className='my-5'>
           <div className='flex items-center gap-3 my-2'>
             <Mail />
-            <span>aks@email.com</span>
+            <span>{user?.email}</span>
           </div>
 
           <div className='flex items-center gap-3 my-2'>
             <Contact />
-            <span>9870119888</span>
+            <span>{user?.phoneNumber}</span>
           </div>
         </div>
 
@@ -54,7 +56,7 @@ const Profile = () => {
           <h1>Skills</h1>
           <div className='flex items-center gap-1'>
             {
-              skills.length != 0 ? skills.map((item, idx) => <Badge key={idx}>{item}</Badge>) : <span>Not Applicable</span>
+              user?.profile?.skills.length != 0 ? user?.profile?.skills.map((item, idx) => <Badge key={idx}>{item}</Badge>) : <span>Not Applicable</span>
             }
           </div>
         </div>
