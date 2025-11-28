@@ -65,7 +65,7 @@ const Profile = () => {
         <div className='grid w-full max-w-sm items-center gap-1.5'>
           <Label className="text-md font-bold">Resume</Label>
           {
-            isResume ? <a target="blank" href='#' className='text-blue-500 w-full hover:underline'>Akshara Goyal</a> : <span>Not Applicable</span>
+            isResume ? <a target="blank" href='#' className='text-blue-500 w-full hover:underline'>{user?.profile?.resumeOriginalName}</a> : <span>Not Applicable</span>
           }
         </div>
       </div>
