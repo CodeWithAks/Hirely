@@ -15,6 +15,13 @@ export const register = async (req, res) => {
                 success: false
             });
         };
+
+        // cloudinary for image uploading
+        const file = req.file;
+        const fileuri = getDataUri(file);
+        const cloudResponse = await cloudinary.uploader.upload(fileuri.content);
+
+
         const user = await User.findOne({ email }); //check if the user exists
         if (user) {
             return res.status(400).json({
@@ -30,6 +37,9 @@ export const register = async (req, res) => {
             phoneNumber,
             password: hashedPassword,
             role,
+            profile:{
+                profilePhoto:cloudResponse.secure_url,
+            }
         });
 
         return res.status(201).json({
@@ -129,10 +139,13 @@ export const updateProfile = async (req, res) => {
         const file = req.file;
 
         const fileuri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileuri.content);
+        const cloudResponse = await cloudinary.uploader.upload(fileuri.content ,{
+            resource_type:"raw", //for pdfs
+            format:"pdf"
+        });
 
 
-        //cloudinary .... 
+        //cloudinary ....  
         let skillsArray = [];
         if (skills && typeof skills === "string") {
             skillsArray = skills.split(",");
