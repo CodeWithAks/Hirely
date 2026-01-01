@@ -7,7 +7,7 @@ import Footer from './Footer'
 import useGetAllJobs from '@/hooks/useGetAllJobs'
 
 const Home = () => {
-  useGetAllJobs()
+  useGetAllJobs();  //fetches jobs
   return (
     <div>
         <Navbar/>
