@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
 import { useParams } from 'react-router-dom';
@@ -11,7 +11,8 @@ import { toast } from 'sonner';
 const JobDescription = () => {
     const {singleJob = [] } = useSelector(store=>store.job); //single job milegi yha se
     const {user} = useSelector(store=>store.auth);
-    const isApplied = singleJob?.applications?.some(application=>application.applicant === user?._id) || false ;
+    const isInitiallyApplied = singleJob?.applications?.some(application=>application.applicant === user?._id) || false ;
+    const [isApplied,setIsApplied] = useState(isInitiallyApplied);
 
     const params = useParams();
     const jobId = params.id; //id get krli url mei se
@@ -22,6 +23,9 @@ const JobDescription = () => {
             const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`,{withCredentials:true});
             console.log(res);
             if(res.data.success) {
+                setIsApplied(true); //update the local state
+                const updatedSIngleJob = {...singleJob, applications:[...singleJob.applications,{applicant:user?._id}]};
+                dispatch(setSingleJob(updatedSIngleJob)); //real time UI updation 
                 toast.success(res.data.message);
             }
         } catch (error) {
@@ -36,6 +40,7 @@ const JobDescription = () => {
                 const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
                 if (res.data.success) {
                     dispatch(setSingleJob(res.data.job)); //to show jobs dynamically
+                    setIsApplied(res.data.job.applications.some(application=>application.applicant == user?._id)) //ensures that the state is in sync with the fetched data
                 }
             } catch (error) {
                 console.log(error);
