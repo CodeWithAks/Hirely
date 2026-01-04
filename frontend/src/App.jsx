@@ -10,6 +10,8 @@ import Browse from './components/Browse.jsx';
 import Profile from './components/Profile.jsx';
 import JobDescription from './components/JobDescription.jsx';
 import Companies from './components/admin/Companies.jsx';
+import CreateCompany from './components/admin/CreateCompany.jsx';
+import CompanySetup from './components/admin/CompanySetup.jsx';
 
 const appRouter = createBrowserRouter([
   {
@@ -45,6 +47,14 @@ const appRouter = createBrowserRouter([
   {
     path: "/admin/companies",
     element: <Companies />
+  },
+  {
+    path: "/admin/companies/create",
+    element: <CreateCompany/>
+  },
+  {
+    path: "/admin/companies/:id",
+    element: <CompanySetup/>
   }
 ])
 
