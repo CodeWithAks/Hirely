@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Button } from '../ui/button'
 import { ArrowLeft, Loader2 } from 'lucide-react'
@@ -66,13 +66,13 @@ const CompanySetup = () => {
 
     useEffect(() => {
         setInput({
-            name: "",
-            description: "",
-            website: "",
-            location: "",
-            file: null
-        })
-    })
+            name: singleCompany.name || "",
+            description: singleCompany.description || "",
+            website: singleCompany.website || "",
+            location: singleCompany.location || "",
+            file: singleCompany.file || "",
+        });
+    },[singleCompany]);
 
     return (
         <div>
