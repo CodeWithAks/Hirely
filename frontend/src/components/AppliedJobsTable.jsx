@@ -19,12 +19,12 @@ const AppliedJobsTable = () => {
                 </TableHeader>
                 <TableBody>
                     {
-                        [1,2].map((item,idx) => (
-                            <TableRow key={idx}>
-                                <TableCell>25-09-2025</TableCell>
-                                <TableCell>Frontend Developer</TableCell>
-                                <TableCell>Google</TableCell>
-                                <TableCell className="text-right"><Badge>Selected</Badge></TableCell>
+                        allAppliedJobs.length <= 0 ? <span>You haven't applied any jobs yet. </span> : allAppliedJobs.map((appliedJob) => (
+                            <TableRow key={appliedJob._id}>
+                                <TableCell>{appliedJob?.createdAt.split("T")[0]}</TableCell>
+                                <TableCell>{appliedJob.job?.title}</TableCell>
+                                <TableCell>{appliedJob.job?.company?.name}</TableCell>
+                                <TableCell className="text-right"><Badge>{appliedJob.status}</Badge></TableCell>
                             </TableRow>
                         ))
                     }
