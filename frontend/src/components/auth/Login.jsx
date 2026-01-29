@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '@radix-ui/react-label'
 import { Input } from '../ui/input'
@@ -20,7 +20,7 @@ const login = () => {
     role: ""
   });
 
-  const { loading } = useSelector(store => store.auth);
+  const { loading, user } = useSelector(store => store.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -31,8 +31,6 @@ const login = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();   //pg reload hone se rokta h
-
-
     try {
       dispatch(setLoading(true)); //login hone pe load hoga 
       const res = await axios.post(`${USER_API_END_POINT}/login`, input, {
@@ -55,6 +53,12 @@ const login = () => {
     }
 
   }
+
+  useEffect(() => {
+    if (user) { //user already logged in h 
+      navigate("/");
+    }
+  }, [])
 
   return (
     <div>
