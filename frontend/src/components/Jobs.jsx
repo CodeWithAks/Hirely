@@ -9,20 +9,34 @@ import {motion} from "framer-motion";
 
 const Jobs = () => {
   const {allJobs = [] , searchedQuery } = useSelector(store=>store.job);
-  const [filterJObs,setFilterJobs] = useState(allJobs);
+  const [filterJobs,setFilterJobs] = useState(allJobs);
+
+  // useEffect(()=>{
+  //   if(searchedQuery){
+  //     const filteredJobs = allJobs.filter((job)=> {
+  //       return job.title.toLowerCase().includes(searchedQuery.toLowerCase()) ||
+  //       job.description.toLowerCase().includes(searchedQuery.toLowerCase()) ||
+  //       job.location.toLowerCase().includes(searchedQuery.toLowerCase()) 
+  //       // job.salary.toLowerCase().includes(searchedQuery.toLowerCase())
+  //     })
+  //   } else {
+  //     setFilterJobs(filterJobs); //agr koi change nhi to normal page load
+  //   }
+  // })
 
   useEffect(()=>{
-    if(searchedQuery){
-      const filteredJobs = allJobs.filter((job)=> {
-        return job.title.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-        job.description.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-        job.location.toLowerCase().includes(searchedQuery.toLowerCase()) ||
-        job.salary.toLowerCase().includes(searchedQuery.toLowerCase())
-      })
-    } else {
-      setFilterJobs(allJobs); //agr koi change nhi to normal page load
-    }
-  })
+  if(searchedQuery){
+    const filteredJobs = allJobs.filter((job)=> {
+      return job.title.toLowerCase().includes(searchedQuery.toLowerCase()) ||
+      job.description.toLowerCase().includes(searchedQuery.toLowerCase()) ||
+      job.location.toLowerCase().includes(searchedQuery.toLowerCase())
+    })
+    setFilterJobs(filteredJobs);
+  } else {
+    setFilterJobs(allJobs);
+  }
+}, [searchedQuery, allJobs]);
+
 
   return (
     <div>
@@ -33,11 +47,11 @@ const Jobs = () => {
             <FilterCard />
           </div>
           {
-            filterJObs.length <= 0 ? <span>Job not found</span> : (
+            filterJobs.length <= 0 ? <span>Job not found</span> : (
               <div className='flex-1 h-[88vh] overflow-y-auto pb-5'>
                 <div className='grid grid-cols-3 gap-4'>
                   {
-                    filterJObs.map(job => (
+                    filterJobs.map(job => (
                       <motion.div
                       initial={{opacity:0,x:100}}
                       animate={{opacity:1,x:0}}

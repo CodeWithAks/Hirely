@@ -4,6 +4,8 @@ import { Bookmark } from 'lucide-react'
 import { Avatar, AvatarImage } from './ui/avatar'
 import { Badge } from './ui/badge'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { addToSaved, removeFromSaved } from '@/redux/jobSlice'
 
 const Job = ({ job }) => {
   const navigate = useNavigate();
@@ -13,16 +15,20 @@ const Job = ({ job }) => {
     const createdAt = new Date(mongodbTime);
     const currentTime = new Date();
     const timeDifference = currentTime - createdAt;
-    return Math.floor(timeDifference/(1000*24*60*60))
-  }
+    return Math.floor(timeDifference / (1000 * 24 * 60 * 60))
+  };
+
+  const { savedJobs = [] } = useSelector(store => store.job);
+  const dispatch = useDispatch();
+
+  const isSaved = savedJobs.some(j => j._id === job._id);
 
 
 
   return (
     <div className='p-5 rounded-md shadow-xl bg-white border border-gray-100  '>
-
       <div className='flex items-center justify-between'>
-        <p className='text-sm text-gray-500'>{daysAgoFunction(job?.createdAt) == 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago` }</p>
+        <p className='text-sm text-gray-500'>{daysAgoFunction(job?.createdAt) == 0 ? "Today" : `${daysAgoFunction(job?.createdAt)} days ago`}</p>
         <Button variant="outline" className="rounded-full" size="icon"><Bookmark /></Button>
       </div>
 
@@ -54,7 +60,20 @@ const Job = ({ job }) => {
 
       <div className='flex items-center gap-4 mt-4'>
         <Button variant="outline" onClick={() => navigate(`/description/${job._id}`)}>Details</Button>
-        <Button className="bg-purple-600 hover:bg-purple-700">Save For Later</Button>
+        {/* <Button className="bg-purple-600 hover:bg-purple-700">Save For Later</Button> */}
+        <Button
+          className={`hover:bg-purple-700 ${isSaved ? "bg-green-600" : "bg-purple-600"}`}
+          onClick={() => {
+            if (isSaved) {
+              dispatch(removeFromSaved(job._id))
+            } else {
+              dispatch(addToSaved(job))
+            }
+          }}
+        >
+          {isSaved ? "Saved ✅" : "Save For Later"}
+        </Button>
+
       </div>
     </div>
   )
