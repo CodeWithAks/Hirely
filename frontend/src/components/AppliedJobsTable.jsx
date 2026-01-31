@@ -4,7 +4,7 @@ import { Badge } from './ui/badge'
 import { useSelector } from 'react-redux'
 
 const AppliedJobsTable = () => {
-    const {allAppliedJobs} = useSelector(store=>store.job);
+    const {allAppliedJobs = [] } = useSelector(store=>store.job);
     return (
         <div>
             <Table>

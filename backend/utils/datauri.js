@@ -17,4 +17,4 @@ export default getDataUri;
 // file.originalname = photo ka naam, jisse extension (jpg/png) nikalti hai
 // DataUriParser() = binary ko URL format mein convert karta hai
 
-// 👉 Ye function photo ko aise format mein convert karta hai jisme Cloudinary accept kare.
+// Ye function photo ko aise format mein convert karta hai jisme Cloudinary accept kare.

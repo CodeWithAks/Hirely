@@ -32,7 +32,7 @@ const Profile = () => {
             </Avatar>
             <div>
               <h1 className='font-medium text-xl'>{user?.fullname}</h1>
-              <p>{user?.profile?.bio}</p>
+              <p> {user?.profile?.bio || "No bio added yet"}</p>
             </div>
           </div>
 
@@ -51,12 +51,12 @@ const Profile = () => {
             <Contact />
             <span>{user?.phoneNumber}</span>
           </div>
-        </div>
+        </div>  
 
         {/* Skills */}
         <div className='my-5'>
           <h1>Skills</h1>
-          <div className='flex items-center gap-1'>
+          <div className='flex flex-wrap gap-2'>
             {
               user?.profile?.skills.length != 0 ? user?.profile?.skills.map((item, idx) => <Badge key={idx}>{item}</Badge>) : <span>Not Applicable</span>
             }

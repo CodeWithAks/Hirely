@@ -65,13 +65,14 @@ const Job = ({ job }) => {
           className={`hover:bg-purple-700 ${isSaved ? "bg-green-600" : "bg-purple-600"}`}
           onClick={() => {
             if (isSaved) {
+              console.log(savedJobs);
               dispatch(removeFromSaved(job._id))
             } else {
               dispatch(addToSaved(job))
             }
           }}
         >
-          {isSaved ? "Saved ✅" : "Save For Later"}
+          {isSaved ? "Saved" : "Save For Later"}
         </Button>
 
       </div>
