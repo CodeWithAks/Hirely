@@ -37,8 +37,8 @@ export const register = async (req, res) => {
             phoneNumber,
             password: hashedPassword,
             role,
-            profile:{
-                profilePhoto:cloudResponse.secure_url,
+            profile: {
+                profilePhoto: cloudResponse.secure_url,
             }
         });
 
@@ -139,9 +139,9 @@ export const updateProfile = async (req, res) => {
         const file = req.file;
 
         const fileuri = getDataUri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileuri.content ,{
-            resource_type:"raw", //for pdfs
-            format:"pdf"
+        const cloudResponse = await cloudinary.uploader.upload(fileuri.content, {
+            resource_type: "auto", // Keeps it dynamic
+            flags: "attachment"
         });
 
 
@@ -161,7 +161,6 @@ export const updateProfile = async (req, res) => {
 
         //updating data - (user ne jo bhi update kra hoga vo update ho jaayega)
         if (!user.profile) user.profile = {};
-
         if (fullname) user.fullname = fullname
         if (email) user.email = email
         if (phoneNumber) user.phoneNumber = phoneNumber

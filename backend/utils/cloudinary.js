@@ -3,9 +3,14 @@ import dotenv from "dotenv";
 dotenv.config();
 
 cloudinary.config({
-    cloud_name:process.env.cloud_name,
-    api_key:process.env.api_key,
-    api_secret:process.env.api_secret
+    cloud_name:process.env.CLOUD_NAME,
+    api_key:process.env.API_KEY,
+    api_secret:process.env.API_SECRET
 });
 
+console.log("CLOUD:", process.env.CLOUD_NAME); //nothingprinting
+console.log("TEST:", process.env.MONGO_URI);
+
+
 export default cloudinary;
+

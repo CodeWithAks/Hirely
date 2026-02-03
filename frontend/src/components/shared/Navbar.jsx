@@ -48,12 +48,10 @@ const Navbar = () => {
                                 <>
                                     <li><Link to="/">Home</Link></li>
                                     <li><Link to="/jobs">Jobs</Link></li>
-                                    <li><Link to="browse">Browse</Link></li>
+                                    <li><Link to="/browse">Browse</Link></li>
                                 </>
                             )
                         }
-                        {/* <li><Link>Jobs</Link></li>
-                    <li><Link>Browse</Link></li> */}
                     </ul>
 
                     {
@@ -76,7 +74,7 @@ const Navbar = () => {
                                         </Avatar>
                                         <div>
                                             <h4 className='font-medium'>{user?.fullname}</h4>
-                                            <p className='text-sm text-muted-foreground'>{user?.bio}</p>
+                                            <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
                                         </div>
                                     </div>
 

@@ -11,7 +11,6 @@ import UpdateProfiledDialogue from './UpdateProfiledDialogue'
 import { useSelector } from 'react-redux'
 import useGetAppliedJobs from '@/hooks/useGetAppliedJobs'
 
-// const skills = ["Html", "Css", "Javascript", "React.js"];
 const isResume = true;
 
 const Profile = () => {
@@ -20,65 +19,100 @@ const Profile = () => {
   const {user} = useSelector(store=>store.auth);
 
   return (
-    <div>
+    <div className="bg-gray-50 min-h-screen">
       <Navbar />
-      <div className='max-w-4xl mx-auto bg-white border border-gray-200 rounded-2xl my-5 p-8'>
+
+      {/* Profile Card */}
+      <div className='max-w-4xl mx-auto bg-white shadow-md border border-gray-200 rounded-2xl my-8 p-8'>
 
         {/* profile pic and bio */}
-        <div className='flex justify-between'>
-          <div className='flex items-center gap-4'>
+        <div className='flex justify-between items-center'>
+          <div className='flex items-center gap-5'>
             <Avatar>
-              <AvatarImage src="https://www.freepnglogos.com/uploads/company-logo-png/company-logo-transparent-png-19.png" className="h-24 w-28" alt="profile" />
+              <AvatarImage 
+                src={user?.profile?.profilePhoto} 
+                className="h-24 w-24 rounded-full object-cover border-2 border-gray-300" 
+                alt="profile" 
+              />
             </Avatar>
             <div>
-              <h1 className='font-medium text-xl'>{user?.fullname}</h1>
-              <p> {user?.profile?.bio || "No bio added yet"}</p>
+              <h1 className='font-semibold text-2xl'>{user?.fullname}</h1>
+              <p className="text-gray-600 text-sm">
+                {user?.profile?.bio || "No bio added yet"}
+              </p>
             </div>
           </div>
 
-          {/* Pen */}
-          <Button onClick={() => setOpen(true)} className="text-right" variant="outline"><Pen /></Button>
+          {/* Edit Button */}
+          <Button 
+            onClick={() => setOpen(true)} 
+            variant="outline" 
+            className="rounded-full hover:bg-gray-100"
+          >
+            <Pen size={18} />
+          </Button>
         </div>
 
+        {/* Divider */}
+        <div className="border-t my-6" />
+
         {/* Mail and contact info */}
-        <div className='my-5'>
-          <div className='flex items-center gap-3 my-2'>
-            <Mail />
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+          <div className='flex items-center gap-3 text-gray-700'>
+            <Mail size={18} />
             <span>{user?.email}</span>
           </div>
 
-          <div className='flex items-center gap-3 my-2'>
-            <Contact />
+          <div className='flex items-center gap-3 text-gray-700'>
+            <Contact size={18} />
             <span>{user?.phoneNumber}</span>
           </div>
         </div>  
 
         {/* Skills */}
-        <div className='my-5'>
-          <h1>Skills</h1>
+        <div className='my-6'>
+          <h1 className="font-semibold mb-2">Skills</h1>
           <div className='flex flex-wrap gap-2'>
             {
-              user?.profile?.skills.length != 0 ? user?.profile?.skills.map((item, idx) => <Badge key={idx}>{item}</Badge>) : <span>Not Applicable</span>
+              user?.profile?.skills.length != 0 
+              ? user?.profile?.skills.map((item, idx) => (
+                  <Badge key={idx} className="px-3 py-1 text-sm">
+                    {item}
+                  </Badge>
+                )) 
+              : <span className="text-gray-500">Not Applicable</span>
             }
           </div>
         </div>
 
         {/* Resume */}
-        <div className='grid w-full max-w-sm items-center gap-1.5'>
-          <Label className="text-md font-bold">Resume</Label>
-          {
-            isResume ? <a target="blank" href={user?.profile?.resume} className='text-blue-500 w-full hover:underline'>{user?.profile?.resumeOriginalName}</a> : <span>Not Applicable</span>
-          }
+        <div className='mt-4'>
+          <Label className="text-md font-semibold">Resume</Label>
+          <div className="mt-1">
+            {
+              isResume 
+              ? (
+                <a 
+                  target="blank" 
+                  href={user?.profile?.resume} 
+                  className='text-blue-600 hover:text-blue-800 underline'
+                >
+                  {user?.profile?.resumeOriginalName}
+                </a>
+              ) 
+              : <span className="text-gray-500">Not Applicable</span>
+            }
+          </div>
         </div>
       </div>
 
-      {/* Appplication Table */}
-        <div className='max-w-4xl mx-auto bg-white rounded-2xl'>
-          <h1 className='font-bold text-lg my-5'>Applied Jobs</h1>
-          <AppliedJobsTable/>
-        </div>
+      {/* Application Table */}
+      <div className='max-w-4xl mx-auto bg-white shadow-md border border-gray-200 rounded-2xl p-6'>
+        <h1 className='font-semibold text-xl mb-4'>Applied Jobs</h1>
+        <AppliedJobsTable/>
+      </div>
 
-        <UpdateProfiledDialogue open={open} setOpen={setOpen} />
+      <UpdateProfiledDialogue open={open} setOpen={setOpen} />
     </div>
   )
 }

@@ -47,7 +47,7 @@ const Footer = () => {
 
       {/* Bottom */}
       <div className="text-center text-gray-500 text-sm mt-10 border-t pt-5">
-        © {new Date().getFullYear()} JobHunt — All Rights Reserved.
+        © {new Date().getFullYear()} Hirely — All Rights Reserved.
       </div>
     </footer>
   );
