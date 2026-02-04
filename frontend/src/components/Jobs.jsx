@@ -39,7 +39,7 @@ const Jobs = () => {
           {/* View saved jobs button */}
           <div className='flex-1'>   {/* Right side */}
             <div className='flex justify-end mb-4'>
-              <Button onClick={()=> navigate("/jobs/saved")}>View Saved Jobs</Button>
+              <Button className="bg-blue-500" onClick={()=> navigate("/jobs/saved")}>View Saved Jobs</Button>
             </div>
 
             {

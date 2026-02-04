@@ -18,5 +18,3 @@ const SavedJobs = () => {
 }
 
 export default SavedJobs;
-
-//saved not showing 
