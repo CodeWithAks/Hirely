@@ -4,7 +4,6 @@ import FilterCard from './FilterCard'
 import Job from './Job'
 import { useSelector } from 'react-redux';
 import { motion } from "framer-motion";
-import { Button } from './ui/button';
 import { useNavigate } from 'react-router-dom';
 
 const Jobs = () => {
@@ -36,12 +35,8 @@ const Jobs = () => {
             <FilterCard />
           </div>
 
-          {/* View saved jobs button */}
-          <div className='flex-1'>   {/* Right side */}
-            <div className='flex justify-end mb-4'>
-              <Button className="bg-blue-500" onClick={()=> navigate("/jobs/saved")}>View Saved Jobs</Button>
-            </div>
-
+      
+          <div className='flex-1'>
             {
               filterJobs.length <= 0 ? <span>Job not found</span> : (
                 <div className='h-[88vh] overflow-y-auto pb-5'>

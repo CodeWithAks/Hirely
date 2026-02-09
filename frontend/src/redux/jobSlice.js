@@ -50,12 +50,4 @@ const jobSlice = createSlice({
 export const { setAllJobs, setSingleJob, setAllAdminJobs, setSearchJobByText, setAllAppliedJobs, setSearchedQuery, addToSaved, removeFromSaved } = jobSlice.actions;
 export default jobSlice.reducer;
 
-//     addToSaved:(state,action) => {
-//         state.savedJobs.push(action.payload);
-//     },
-//     removeFromSaved: (state,action) => {
-//         state.savedJobs = state.savedJobs.filter(
-//             job => job._id !== action.payload
-//         )
-//     }
-// }
+

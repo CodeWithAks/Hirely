@@ -7,30 +7,31 @@ import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constant';
 import { useDispatch, useSelector } from 'react-redux';
 import { setSingleJob } from '@/redux/jobSlice';
 import { toast } from 'sonner';
+import { Calendar, MapPin, Briefcase, Users, Wallet, ArrowLeft } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const JobDescription = () => {
-    const {singleJob = [] } = useSelector(store=>store.job); //single job milegi yha se
-    const {user} = useSelector(store=>store.auth);
-    const isInitiallyApplied = singleJob?.applications?.some(application=>application.applicant === user?._id) || false ;
-    const [isApplied,setIsApplied] = useState(isInitiallyApplied);
+    const { singleJob } = useSelector(store => store.job);
+    const { user } = useSelector(store => store.auth);
+    
+    const isInitiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
+    const [isApplied, setIsApplied] = useState(isInitiallyApplied);
 
     const params = useParams();
-    const jobId = params.id; //id get krli url mei se
+    const jobId = params.id;
     const dispatch = useDispatch();
 
     const applyJobHandler = async () => {
         try {
-            const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`,{withCredentials:true});
-            console.log(res);
-            if(res.data.success) {
-                setIsApplied(true); //update the local state
-                const updatedSIngleJob = {...singleJob, applications:[...singleJob.applications,{applicant:user?._id}]};
-                dispatch(setSingleJob(updatedSIngleJob)); //real time UI updation 
+            const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true });
+            if (res.data.success) {
+                setIsApplied(true);
+                const updatedSingleJob = { ...singleJob, applications: [...singleJob.applications, { applicant: user?._id }] };
+                dispatch(setSingleJob(updatedSingleJob));
                 toast.success(res.data.message);
             }
         } catch (error) {
-            console.log(error);
-            toast.error(error.response.data.message);
+            toast.error(error.response?.data?.message || "Something went wrong");
         }
     }
 
@@ -39,44 +40,118 @@ const JobDescription = () => {
             try {
                 const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
                 if (res.data.success) {
-                    dispatch(setSingleJob(res.data.job)); //to show jobs dynamically
-                    setIsApplied(res.data.job.applications.some(application=>application.applicant == user?._id)) //ensures that the state is in sync with the fetched data
+                    dispatch(setSingleJob(res.data.job));
+                    setIsApplied(res.data.job.applications.some(application => application.applicant == user?._id))
                 }
             } catch (error) {
                 console.log(error);
             }
         }
         fetchSingleJob();
-    }, [jobId,dispatch,user?._id]);
+    }, [jobId, dispatch, user?._id]);
 
+    if (!singleJob) return <div className='h-screen flex items-center justify-center'>Loading...</div>;
 
     return (
-        <div className='max-w-7xl mx-auto my-20'>
-            <div className='flex items-center justify-between'>
-            <div>
-                <h1 className='font-bold text-xl'>{singleJob?.title}</h1>
-                <div className='flex items-center gap-2 mt-4'>
-                    <Badge className='text-blue-700 font-bold' variant="ghost">{singleJob?.position}</Badge>
-                    <Badge className='text-purple-700 font-bold' variant="ghost">{singleJob?.jobType}</Badge>
-                    <Badge className='text-red-700 font-bold' variant="ghost">{singleJob?.salary}</Badge>
+        <motion.div 
+            initial={{ opacity: 0 }} 
+            animate={{ opacity: 1 }} 
+            className='max-w-7xl mx-auto my-10 px-4'
+        >
+            {/* Header / Top Bar */}
+            <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-white p-8 rounded-2xl border border-gray-100 shadow-sm'>
+                <div className='space-y-4'>
+                    <button onClick={() => window.history.back()} className='flex items-center gap-2 text-gray-500 hover:text-blue-600 transition-colors text-sm font-medium'>
+                        <ArrowLeft size={16}/> Back to Jobs
+                    </button>
+                    <h1 className='font-extrabold text-3xl md:text-4xl text-gray-900'>{singleJob?.title}</h1>
+                    <div className='flex flex-wrap items-center gap-3'>
+                        <Badge className='bg-blue-50 text-blue-700 border-none px-4 py-1' variant="outline">{singleJob?.position} Positions</Badge>
+                        <Badge className='bg-purple-50 text-purple-700 border-none px-4 py-1' variant="outline">{singleJob?.jobType}</Badge>
+                        <Badge className='bg-red-50 text-red-700 border-none px-4 py-1' variant="outline">{singleJob?.salary} LPA</Badge>
+                    </div>
                 </div>
-            </div>
-            <Button onClick={isApplied ? null : applyJobHandler} disabled={isApplied} className={`rounded-lg ${isApplied ? 'bg-gray-600 cursor-not-allowed' : 'bg-blue-500 hover:bg-blue-600'}`}>{ isApplied ? 'Already Applied' : 'Apply Now'}</Button>
+                
+                <Button 
+                    onClick={isApplied ? null : applyJobHandler} 
+                    disabled={isApplied} 
+                    size="lg"
+                    className={`rounded-full px-10 py-7 text-lg font-bold transition-all shadow-lg active:scale-95 ${
+                        isApplied 
+                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200' 
+                        : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200'
+                    }`}
+                >
+                    {isApplied ? 'Application Sent' : 'Apply Now'}
+                </Button>
             </div>
 
-            <h1 className='border-b-2 border-b-gray-300 font-medium py-5'>Job Description</h1>
+            {/* Main Content Grid */}
+            <div className='grid grid-cols-1 lg:grid-cols-3 gap-10 my-10'>
+                
+                {/* Left Side: Details */}
+                <div className='lg:col-span-2 space-y-8'>
+                    <section>
+                        <h2 className='text-2xl font-bold text-gray-900 mb-4'>Job Description</h2>
+                        <p className='text-gray-600 leading-relaxed text-lg'>
+                            {singleJob?.description}
+                        </p>
+                    </section>
 
-            {/* Role */}
-            <div className='my-4'>
-                <h1 className='font-bold my-1'>Role : <span className='pl-4 font-normal text-gray-800'>{singleJob?.title}</span></h1>
-                <h1 className='font-bold my-1'>Location : <span className='pl-4 font-normal text-gray-800'>{singleJob?.location}</span></h1>
-                <h1 className='font-bold my-1'>Description : <span className='pl-4 font-normal text-gray-800'>{singleJob?.description}</span></h1>
-                <h1 className='font-bold my-1'>Experience : <span className='pl-4 font-normal text-gray-800'>{singleJob?.experience}</span></h1>
-                <h1 className='font-bold my-1'>Salary : <span className='pl-4 font-normal text-gray-800'>{singleJob?.salary}</span></h1>
-                <h1 className='font-bold my-1'>Total Applicants : <span className='pl-4 font-normal text-gray-800'>{singleJob?.applications?.length}</span></h1>
-                <h1 className='font-bold my-1'>Posted Date : <span className='pl-4 font-normal text-gray-800'>{singleJob?.createdAt.split("T")[0]}</span></h1>
+                    <section className='bg-gray-50 p-6 rounded-2xl border border-gray-100'>
+                        <h2 className='text-xl font-bold text-gray-900 mb-4 font-mono uppercase tracking-tighter'>Role Highlights</h2>
+                        <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
+                            <div className='flex items-center gap-4'>
+                                <div className='p-3 bg-white rounded-xl shadow-sm text-blue-600'><MapPin size={20}/></div>
+                                <div>
+                                    <p className='text-xs text-gray-400 font-bold uppercase'>Location</p>
+                                    <p className='font-semibold text-gray-700'>{singleJob?.location || "Remote"}</p>
+                                </div>
+                            </div>
+                            <div className='flex items-center gap-4'>
+                                <div className='p-3 bg-white rounded-xl shadow-sm text-purple-600'><Briefcase size={20}/></div>
+                                <div>
+                                    <p className='text-xs text-gray-400 font-bold uppercase'>Experience</p>
+                                    <p className='font-semibold text-gray-700'>{singleJob?.experience} Years</p>
+                                </div>
+                            </div>
+                            <div className='flex items-center gap-4'>
+                                <div className='p-3 bg-white rounded-xl shadow-sm text-green-600'><Wallet size={20}/></div>
+                                <div>
+                                    <p className='text-xs text-gray-400 font-bold uppercase'>Salary</p>
+                                    <p className='font-semibold text-gray-700'>{singleJob?.salary} LPA</p>
+                                </div>
+                            </div>
+                            <div className='flex items-center gap-4'>
+                                <div className='p-3 bg-white rounded-xl shadow-sm text-orange-600'><Calendar size={20}/></div>
+                                <div>
+                                    <p className='text-xs text-gray-400 font-bold uppercase'>Posted On</p>
+                                    <p className='font-semibold text-gray-700'>{singleJob?.createdAt?.split("T")[0]}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                {/* Right Side: Quick Stats / Sidebar */}
+                <div className='lg:col-span-1'>
+                    <div className='sticky top-24 p-6 rounded-2xl border border-gray-100 bg-white shadow-sm space-y-6'>
+                        <h3 className='font-bold text-lg text-gray-900'>Engagement</h3>
+                        <div className='flex items-center justify-between p-4 bg-blue-50/50 rounded-xl'>
+                            <div className='flex items-center gap-3'>
+                                <Users className='text-blue-600' size={20}/>
+                                <span className='text-sm font-medium text-gray-600'>Total Applicants</span>
+                            </div>
+                            <span className='font-bold text-blue-700 text-lg'>{singleJob?.applications?.length}</span>
+                        </div>
+                        <div className='text-xs text-gray-400 text-center'>
+                            Be one of the first few candidates to apply for this role.
+                        </div>
+                    </div>
+                </div>
+
             </div>
-        </div>
+        </motion.div>
     )
 }
 

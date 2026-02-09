@@ -33,7 +33,7 @@ const Navbar = () => {
         <div className='p-4'>
             <div className='flex items-center justify-between mx-auto max-w-7xl h-16'>
                 <div>
-                    <h1 className='text-blue-800 font-bold text-3xl'>Hirely</h1>
+                    <h1 className='text-blue-800 font-bold text-4xl'>Hirely</h1>
                 </div>
 
                 <div className='flex items-center gap-12'>
@@ -46,9 +46,9 @@ const Navbar = () => {
                                 </>
                             ) : (
                                 <>
-                                    <li><Link to="/">Home</Link></li>
-                                    <li><Link to="/jobs">Jobs</Link></li>
-                                    <li><Link to="/browse">Browse</Link></li>
+                                    <li><Link to="/" className='text-xl'>Home</Link></li>
+                                    <li><Link to="/jobs" className='text-xl' >Jobs</Link></li>
+                                    <li><Link to="/browse" className='text-xl' >Browse</Link></li>
                                 </>
                             )
                         }
@@ -57,8 +57,8 @@ const Navbar = () => {
                     {
                         !user ? (
                             <div className='flex items-center gap-2'>
-                                <Link to="/login"><Button variant="outline" className="cursor-pointer">Login</Button></Link>
-                                <Link to="/signup"><Button className="bg-purple-600 hover:bg-purple-700 cursor-pointer">SignUp</Button></Link>
+                                <Link to="/login"><Button variant="outline" className="cursor-pointer text-xl">Login</Button></Link>
+                                <Link to="/signup"><Button className="bg-purple-600 hover:bg-purple-700 cursor-pointer text-xl p-4">SignUp</Button></Link>
                             </div>
                         ) : (
                             <Popover>
