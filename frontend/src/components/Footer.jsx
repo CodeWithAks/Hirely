@@ -8,7 +8,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-10">
 
         {/* Logo + About */}
-        <div>
+        <div className="flex flex-col items-center text-center md:items-start md:text-left">
           <h1 className="text-2xl font-bold text-blue-700">Hirely</h1>
           <p className="text-sm text-gray-600 mt-3">
             Find your dream job from top companies.  
@@ -17,7 +17,7 @@ const Footer = () => {
         </div>
 
         {/* Quick Links */}
-        <div>
+        <div className="flex flex-col items-center text-center md:items-start md:text-left">
           <h2 className="text-xl font-semibold mb-3">Quick Links</h2>
           <ul className="space-y-2 text-gray-600">
             <li><Link to="/jobs" className="hover:text-blue-600">Browse Jobs</Link></li>
@@ -28,9 +28,9 @@ const Footer = () => {
         </div>
 
         {/* Socials */}
-        <div>
+        <div className="flex flex-col items-center text-center md:items-start md:text-left">
           <h2 className="text-xl font-semibold mb-3">Connect With Us</h2>
-          <div className="flex items-center gap-4 mt-3">
+          <div className="flex items-center gap-4 mt-3 justify-center md:justify-start">
             <a href="#" className="p-2 rounded-full bg-white shadow hover:scale-110 transition">
               <Linkedin className="h-5 w-5 text-blue-700" />
             </a>

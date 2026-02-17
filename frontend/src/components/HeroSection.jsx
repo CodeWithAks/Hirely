@@ -18,7 +18,7 @@ const HeroSection = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setTitleIndex((prev) => (prev + 1) % titles.length);
-        }, 3000); // Change text every 3 seconds
+        }, 3000); 
         return () => clearInterval(interval);
     }, []);
 
@@ -30,7 +30,7 @@ const HeroSection = () => {
     return (
         <section className="relative w-full min-h-[700px] flex flex-col justify-center overflow-hidden bg-gray-50 pt-16">
             
-            {/* 1. BACKGROUND GRID & BLOBS */}
+            {/* BACKGROUND */}
             <div className="absolute inset-0 z-0 h-full w-full bg-white bg-[linear-gradient(to_right,#f0f0f0_1px,transparent_1px),linear-gradient(to_bottom,#f0f0f0_1px,transparent_1px)] bg-[size:6rem_4rem] opacity-60"></div>
             <div className="absolute top-0 left-0 right-0 h-full w-full bg-gradient-to-b from-white via-transparent to-transparent z-1"></div>
             <div className="absolute -top-20 -left-20 h-96 w-96 bg-blue-400/20 rounded-full blur-[100px] animate-pulse" />
@@ -77,7 +77,7 @@ const HeroSection = () => {
                     </span>
 
                     {/* Headline */}
-                    <h1 className="text-4xl md:text-6xl font-extrabold leading-tight tracking-tight text-gray-900">
+                    <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight md:leading-snug lg:leading-tight tracking-tight text-gray-900">
                         Discover & Apply <br />
                         To Your <span className="text-blue-600">Dream Job</span>
                     </h1>
@@ -102,19 +102,19 @@ const HeroSection = () => {
                     </p>
 
                     {/* Search Bar */}
-                    <div className="flex w-full md:w-[80%] bg-white border border-gray-200 rounded-full shadow-lg overflow-hidden mt-4 p-2 focus-within:ring-2 ring-blue-100 transition-all">
-                        <div className="flex items-center flex-grow px-4">
+                    <div className="flex flex-col md:flex-row gap-2 md:gap-0 w-full md:w-[80%] bg-white border border-gray-200 rounded-full shadow-lg overflow-hidden mt-4 p-2 focus-within:ring-2 ring-blue-100 transition-all">
+                        <div className="flex items-center flex-grow px-3 md:px-4">
                             <Search className="text-gray-400 w-6 h-6 mr-3" />
                             <input
                                 type="text"
                                 placeholder="Job title, keywords, or company..."
                                 onChange={(e) => setQuery(e.target.value)}
-                                className="w-full outline-none text-gray-700 text-lg py-2"
+                                className="w-full outline-none text-gray-700 text-lg py-2 md:py-2"
                             />
                         </div>
                         <Button
                             onClick={searchJobHandler}
-                            className="rounded-full bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg"
+                            className="rounded-full w-full md:w-auto bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg"
                         >
                             Search
                         </Button>

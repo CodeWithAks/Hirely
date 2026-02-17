@@ -25,18 +25,31 @@ const CategoryCarousel = () => {
 
   return (
     <div>
-      <Carousel className="w-full max-w-xl mx-auto my-20">
-        <CarouselContent>
+      <Carousel className="w-full max-w-4xl mx-auto my-8">
+        <CarouselContent className="flex gap-4 px-4 overflow-x-auto snap-x snap-mandatory scroll-smooth">
           {
             category.map((cat, index) => (
-              <CarouselItem key={index} className="md:basis-1/2 lg:basis-1/3">
-                <Button onClick={()=>searchJobHandler(cat)} variant="outline" className="rounded-full">{cat}</Button>
+              <CarouselItem
+                key={index}
+                className="flex-shrink-0 w-11/12 sm:w-1/2 lg:w-1/3 snap-start flex justify-center"
+              >
+                <Button
+                  onClick={() => searchJobHandler(cat)}
+                  variant="outline"
+                  className="w-full sm:w-auto rounded-full px-6 py-3"
+                >
+                  {cat}
+                </Button>
               </CarouselItem>
             ))
           }
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+
+        {/* Arrows hidden on mobile */}
+        <div className="hidden sm:flex items-center gap-2">
+          <CarouselPrevious />
+          <CarouselNext />
+        </div>
       </Carousel>
     </div>
   )

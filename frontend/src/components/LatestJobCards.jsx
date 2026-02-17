@@ -12,8 +12,7 @@ const LatestJobCards = ({ job }) => {
             onClick={() => navigate(`/description/${job._id}`)}
             whileHover={{ y: -5, scale: 1.02 }}
             transition={{ duration: 0.2 }}
-            className='p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-xl cursor-pointer transition-all group'
-        >
+            className='p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-xl cursor-pointer transition-all group'>
             <div className='flex items-center justify-between mb-4'>
                 <div className='flex items-center gap-3'>
                     {/* Company Logo Placeholder */}

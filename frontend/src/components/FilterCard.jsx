@@ -32,20 +32,20 @@ const FilterCard = () => {
   },[selectedValue]);
 
   return (
-    <div className='w-full bg-white p-3 rounded-md'>
-      <h1 className='font-bold text-lg'>Filter Jobs</h1>
-      <hr className='mt-3'/>
+    <div className='w-full bg-white p-4 md:p-6 rounded-md'>
+      <h1 className='font-bold text-base md:text-lg'>Filter Jobs</h1>
+      <hr className='mt-4'/>
       <RadioGroup value={selectedValue} onValueChange={changeHandler} >
         {
           filterData.map((data,idx)=>(
-            <div>
-              <h1 className='font-bold text-lg my-3'>{data.filterType}</h1>
+            <div key={idx}>
+              <h1 className='font-bold text-base md:text-lg my-4'>{data.filterType}</h1>
               {
                 data.array.map((item,idx) => {
                   return(
-                    <div key={idx} className='flex items-center gap-3 my-3'>
+                    <div key={idx} className='flex items-center gap-3 my-4 p-2 rounded hover:bg-gray-50 cursor-pointer transition-colors'>
                       <RadioGroupItem id={item} value={item} className="cursor-pointer" />
-                        <Label htmlFor={item}>{item}</Label>
+                        <Label htmlFor={item} className='cursor-pointer text-sm md:text-base'>{item}</Label>
                     </div>
                   )
                 })
