@@ -20,7 +20,7 @@ const AdminJobsTable = () => {
       return company?.name?.toLowerCase().includes(searchJobByText.toLowerCase()) || job?.company?.name.toLowerCase().includes(searchJobByText.toLowerCase());
     });
     setFilterJobs(filteredJobs); //state change hoga
-  }, [allAdminJobs, searchJobByText]) //agr inmei se koi ek bhi change hoga to useEffect call ho jaayega
+  }, [allAdminJobs, searchJobByText]) //agr inmei se koi ek bhi change hoga to useEffect call ho jaayega  
   // console.log(companies);
 
   return (

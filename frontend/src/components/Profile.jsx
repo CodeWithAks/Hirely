@@ -23,10 +23,10 @@ const Profile = () => {
       <Navbar />
 
       {/* Profile Card */}
-      <div className='max-w-4xl mx-auto bg-white shadow-md border border-gray-200 rounded-2xl my-8 p-8'>
+      <div className='max-w-4xl mx-auto bg-white shadow-md border border-gray-200 rounded-2xl my-8 p-4 md:p-8 mx-4'>
 
         {/* profile pic and bio */}
-        <div className='flex justify-between items-center'>
+        <div className='flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 md:gap-0'>
           <div className='flex items-center gap-5'>
             <Avatar>
               <AvatarImage 
@@ -47,7 +47,7 @@ const Profile = () => {
           <Button 
             onClick={() => setOpen(true)} 
             variant="outline" 
-            className="rounded-full hover:bg-gray-100"
+            className="rounded-full hover:bg-gray-100 self-start md:self-auto"
           >
             <Pen size={18} />
           </Button>
@@ -107,9 +107,11 @@ const Profile = () => {
       </div>
 
       {/* Application Table */}
-      <div className='max-w-4xl mx-auto bg-white shadow-md border border-gray-200 rounded-2xl p-6'>
+      <div className='max-w-4xl mx-auto bg-white shadow-md border border-gray-200 rounded-2xl p-4 md:p-6 mx-4 mb-8'>
         <h1 className='font-semibold text-xl mb-4'>Applied Jobs</h1>
-        <AppliedJobsTable/>
+        <div className='overflow-x-auto'>
+          <AppliedJobsTable/>
+        </div>
       </div>
 
       <UpdateProfiledDialogue open={open} setOpen={setOpen} />

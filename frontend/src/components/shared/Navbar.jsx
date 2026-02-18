@@ -1,7 +1,7 @@
 import React from 'react'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { Button } from '../ui/button'
-import { Avatar, AvatarImage } from '@radix-ui/react-avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@radix-ui/react-avatar'
 import { LogOut, User2 } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
@@ -177,8 +177,11 @@ const Navbar = () => {
                 {user && (
                     <div className="hidden md:flex items-center gap-2">
                         <Avatar className="h-8 w-8">
-                            <AvatarImage src={user.avatar} alt={user.name} />
-                            <AvatarFallback>{user.name.charAt(0)}</AvatarFallback>
+                            <AvatarImage src={user?.profile?.profilePhoto} alt={user?.fullname} />
+<AvatarFallback>
+  {user?.fullname?.charAt(0) || "U"}
+</AvatarFallback>
+                     
                         </Avatar>
                     </div>
                 )}

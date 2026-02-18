@@ -37,7 +37,7 @@ const HeroSection = () => {
             <div className="absolute top-40 -right-20 h-96 w-96 bg-purple-400/20 rounded-full blur-[100px] animate-pulse delay-1000" />
 
             {/* 2. FLOATING CARDS (Hidden on mobile) */}
-            <motion.div 
+            {/* <motion.div 
                 initial={{ x: -100, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
@@ -61,7 +61,7 @@ const HeroSection = () => {
                     <p className="font-bold text-gray-800">Resume Uploaded</p>
                     <p className="text-sm text-green-600 font-medium">100% Match Found</p>
                 </div>
-            </motion.div>
+            </motion.div> */}
 
 
             {/* 3. MAIN CONTENT */}
