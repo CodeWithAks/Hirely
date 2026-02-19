@@ -2,7 +2,7 @@
 import { User } from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-import getDataUri from "../utils/dataURI.js";
+import getdatauri from "../utils/datauri.js";
 import cloudinary from "../utils/cloudinary.js";
 
 //registration
@@ -138,7 +138,7 @@ export const updateProfile = async (req, res) => {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
         const file = req.file;
 
-        const fileuri = getDataUri(file);
+        const fileuri = getdatauri(file);
         const cloudResponse = await cloudinary.uploader.upload(fileuri.content, {
             resource_type: "auto", // Keeps it dynamic
             flags: "attachment"
