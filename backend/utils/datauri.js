@@ -9,6 +9,7 @@ const getDataUri = (file) => {
 
 export default getDataUri;
 
+
 // Jab user photo upload karega, wo buffer (binary data) ke form mein aata hai.
 // Cloudinary ko URL-like format chahiye hota hai → "data:image/png;base64,...."
 
