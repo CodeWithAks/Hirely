@@ -27,7 +27,7 @@ app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
 
 const corsOptions = {
-    origin:["https://hirely-5cmz.onrender.com","http://localhost:5173"],
+    origin:["https://hirely-5cmz.onrender.com","https://hirely-git-main-codewithaks-projects-14434674.vercel.app/"],
     credentials:true
 }
 app.use(cors(corsOptions));
