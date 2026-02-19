@@ -18,7 +18,7 @@ export const register = async (req, res) => {
 
         // cloudinary for image uploading
         const file = req.file;
-        const fileuri = getDataUri(file);
+        const fileuri = getdatauri(file);
         const cloudResponse = await cloudinary.uploader.upload(fileuri.content);
 
 
