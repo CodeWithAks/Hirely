@@ -22,15 +22,18 @@ app.get("/",(req,res)=> {
 })
 
 //middlewares
+const corsOptions = {
+    origin: [
+        "http://localhost:5173",
+        "https://hirely-rouge.vercel.app"
+    ],
+    credentials: true
+}
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
-
-const corsOptions = {
-    origin:["http://localhost:5173","https://hirely-git-main-codewithaks-projects-14434674.vercel.app"],
-    credentials:true
-}
-app.use(cors(corsOptions));
 
 
 //apis
