@@ -22,13 +22,18 @@ app.get("/",(req,res)=> {
 })
 
 //middlewares
-const corsOptions = {
-    origin: [
-        "http://localhost:5173",
-        "https://hirely-rouge.vercel.app"
-    ],
+// const corsOptions = {
+//     origin: [
+//         "http://localhost:5173",
+//         "https://hirely-rouge.vercel.app"
+//     ],
+//     credentials: true
+// }
+
+app.use(cors({
+    origin: "https://hirely-rouge.vercel.app",
     credentials: true
-}
+}));
 
 app.use(cors(corsOptions));
 app.use(express.json());

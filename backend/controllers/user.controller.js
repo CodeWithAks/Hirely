@@ -91,7 +91,7 @@ export const login = async (req, res) => {
         const tokenData = {
             userId: user._id
         }
-        const token = await jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: "1d" });
+        const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: "1d" });
 
         user = {
             _id: user._id,
@@ -102,7 +102,7 @@ export const login = async (req, res) => {
             profile: user.profile
         }
 
-        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpsOnly: true, sameSite: "strict" }).json({
+        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "None", secure: true }).json({
             message: `Welcome back ${user.fullname}`,
             user,
             success: true
@@ -196,32 +196,3 @@ export const updateProfile = async (req, res) => {
     }
 };
 
-//OVERALL FLOW
-// 1. User Registration (Sign Up)
-// User fills a sign-up form with:
-// Name, Email, Phone, Password, Role (e.g., recruiter/job-seeker)
-// Backend checks:
-// Is anything missing?
-// Does this email already exist?
-// If everything is okay:
-// Hashes the password (for safety)
-// Saves the user in the database
-// Sends back "Account created" message
-
-// 🔑 2. User Login (Sign In)
-// User fills a login form with:
-// Email, Password, Role
-// Backend checks:
-// Is anything missing?
-// Does this email exist?
-// Does the password match?
-// Does the role match?
-// If yes to all:
-// Creates a JWT token (used to keep the user logged in)
-// Stores the token in a cookie
-// Sends back success message + user info
-
-// 🔓 3. Logout
-// When the user logs out:
-// The server clears the token cookie
-// Sends back "Logged out successfully"
