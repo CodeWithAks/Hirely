@@ -12,6 +12,7 @@ import "./utils/cloudinary.js";
 dotenv.config({});
 
 const app = express();
+app.set("trust proxy", 1); //for render server to allow secure cookies 
 const port = process.env.PORT || 3000;
 
 app.get("/",(req,res)=> {
@@ -35,7 +36,7 @@ app.use(cors({
     credentials: true
 }));
 
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
@@ -46,7 +47,6 @@ app.use("/api/v1/user",userRoute);
 app.use("/api/v1/company",companyRoute);
 app.use("/api/v1/job",jobRoute);
 app.use("/api/v1/application",applicationRoute);
-// "http://localhost:8000/api/v1/user/register"
 
 
 app.listen(port,()=> {
