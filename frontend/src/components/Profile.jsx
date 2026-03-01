@@ -28,13 +28,15 @@ const Profile = () => {
         {/* profile pic and bio */}
         <div className='flex flex-col md:flex-row md:justify-between items-start md:items-center gap-4 md:gap-0'>
           <div className='flex items-center gap-5'>
-            <Avatar>
-              <AvatarImage 
-                src={user?.profile?.profilePhoto} 
-                className="h-24 w-24 rounded-full object-cover border-2 border-gray-300" 
-                alt="profile" 
-              />
-            </Avatar>
+            <div className='h-24 w-24 rounded-full overflow-hidden border-2 border-gray-300'>
+              <Avatar>
+                <AvatarImage 
+                  src={user?.profile?.profilePhoto} 
+                  className="h-24 w-24 aspect-square object-cover" 
+                  alt="profile" 
+                />
+              </Avatar>
+            </div>
             <div>
               <h1 className='font-semibold text-2xl'>{user?.fullname}</h1>
               <p className="text-gray-600 text-sm">
@@ -76,7 +78,7 @@ const Profile = () => {
             {
               user?.profile?.skills.length != 0 
               ? user?.profile?.skills.map((item, idx) => (
-                  <Badge key={idx} className="px-3 py-1 text-sm">
+                  <Badge key={idx} className="px-3 py-1 text-sm bg-gray-800 text-white hover:bg-gray-700">
                     {item}
                   </Badge>
                 )) 

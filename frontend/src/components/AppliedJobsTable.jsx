@@ -5,6 +5,19 @@ import { useSelector } from 'react-redux'
 
 const AppliedJobsTable = () => {
     const {allAppliedJobs = [] } = useSelector(store=>store.job);
+
+    const getStatusBadgeStyle = (status) => {
+        switch(status) {
+            case 'accepted':
+                return 'bg-green-100 text-green-700';
+            case 'rejected':
+                return 'bg-red-100 text-red-700';
+            case 'pending':
+            default:
+                return 'bg-yellow-100 text-yellow-700';
+        }
+    };
+
     return (
         <div>
             <Table>
@@ -24,7 +37,7 @@ const AppliedJobsTable = () => {
                                 <TableCell>{appliedJob?.createdAt.split("T")[0]}</TableCell>
                                 <TableCell>{appliedJob.job?.title}</TableCell>
                                 <TableCell>{appliedJob.job?.company?.name}</TableCell>
-                                <TableCell className="text-right"><Badge>{appliedJob.status}</Badge></TableCell>
+                                <TableCell className="text-right"><Badge className={getStatusBadgeStyle(appliedJob.status)}>{appliedJob.status}</Badge></TableCell>
                             </TableRow>
                         ))
                     }
