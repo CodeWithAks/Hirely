@@ -67,18 +67,9 @@ const Navbar = () => {
                         ) : (
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    <Avatar className='h-12 w-12 rounded-full overflow-hidden cursor-pointer'>
-                                        <AvatarImage
-                                            src={user?.profile?.profilePhoto}
-                                            alt={user?.fullname || 'profile'}
-                                            className='aspect-square object-cover h-full w-full'
-                                        />
-                                        <AvatarFallback className='text-sm'>{user?.fullname?.charAt(0)}</AvatarFallback>
-                                    </Avatar>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-80">
-                                    <div className='flex gap-4'>
-                                        <Avatar className='h-12 w-12 rounded-full overflow-hidden'>
+                                    {/* wrapper ensures fixed size and rounded overflow */}
+                                    <div className='h-10 w-10 rounded-full overflow-hidden cursor-pointer'>
+                                        <Avatar className='h-full w-full'>
                                             <AvatarImage
                                                 src={user?.profile?.profilePhoto}
                                                 alt={user?.fullname || 'profile'}
@@ -86,6 +77,20 @@ const Navbar = () => {
                                             />
                                             <AvatarFallback className='text-sm'>{user?.fullname?.charAt(0)}</AvatarFallback>
                                         </Avatar>
+                                    </div>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-80">
+                                    <div className='flex gap-4'>
+                                        <div className='h-10 w-10 rounded-full overflow-hidden'>
+                                            <Avatar className='h-full w-full'>
+                                                <AvatarImage
+                                                    src={user?.profile?.profilePhoto}
+                                                    alt={user?.fullname || 'profile'}
+                                                    className='aspect-square object-cover h-full w-full'
+                                                />
+                                                <AvatarFallback className='text-sm'>{user?.fullname?.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                        </div>
                                         <div>
                                             <h4 className='font-medium'>{user?.fullname}</h4>
                                             <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>

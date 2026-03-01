@@ -36,34 +36,6 @@ const HeroSection = () => {
             <div className="absolute -top-20 -left-20 h-96 w-96 bg-blue-400/20 rounded-full blur-[100px] animate-pulse" />
             <div className="absolute top-40 -right-20 h-96 w-96 bg-purple-400/20 rounded-full blur-[100px] animate-pulse delay-1000" />
 
-            {/* 2. FLOATING CARDS (Hidden on mobile) */}
-            {/* <motion.div 
-                initial={{ x: -100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.5 }}
-                className="hidden xl:flex absolute left-[10%] top-[25%] bg-white p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-100 max-w-xs z-10"
-            >
-                <div className="h-12 w-12 bg-green-100 rounded-full flex items-center justify-center text-2xl mr-4">🎉</div>
-                <div>
-                    <p className="font-bold text-gray-800">Job Offer Received</p>
-                    <p className="text-sm text-gray-500">Google Inc. • Senior Dev</p>
-                </div>
-            </motion.div>
-
-            <motion.div 
-                initial={{ x: 100, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                transition={{ duration: 0.8, delay: 0.7 }}
-                className="hidden xl:flex absolute right-[10%] bottom-[30%] bg-white p-4 rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-gray-100 max-w-xs z-10"
-            >
-                <div className="h-12 w-12 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-bold mr-4">CV</div>
-                <div>
-                    <p className="font-bold text-gray-800">Resume Uploaded</p>
-                    <p className="text-sm text-green-600 font-medium">100% Match Found</p>
-                </div>
-            </motion.div> */}
-
-
             {/* 3. MAIN CONTENT */}
             <div className="relative z-10 text-center max-w-4xl mx-auto px-4">
                 <motion.div 

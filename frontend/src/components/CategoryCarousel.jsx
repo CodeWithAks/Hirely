@@ -25,13 +25,13 @@ const CategoryCarousel = () => {
 
   return (
     <div>
-      <Carousel className="w-full max-w-4xl mx-auto my-8">
-        <CarouselContent className="flex gap-4 px-4 overflow-x-auto snap-x snap-mandatory scroll-smooth">
+      <Carousel className="relative w-full max-w-4xl mx-auto my-8">
+        <CarouselContent className="flex gap-4 px-4">
           {
             category.map((cat, index) => (
               <CarouselItem
                 key={index}
-                className="flex-shrink-0 w-11/12 sm:w-1/2 lg:w-1/3 snap-start flex justify-center"
+                className="basis-1/2 md:basis-1/3 flex justify-center"
               >
                 <Button
                   onClick={() => searchJobHandler(cat)}
@@ -45,10 +45,14 @@ const CategoryCarousel = () => {
           }
         </CarouselContent>
 
-        {/* Arrows hidden on mobile */}
-        <div className="hidden sm:flex items-center gap-2">
-          <CarouselPrevious />
-          <CarouselNext />
+        {/* Arrows positioned at sides of carousel */}
+        <div className="absolute inset-y-0 left-0 right-0 flex items-center justify-between px-4 pointer-events-none">
+          <div className="pointer-events-auto hidden sm:block">
+            <CarouselPrevious />
+          </div>
+          <div className="pointer-events-auto hidden sm:block">
+            <CarouselNext />
+          </div>
         </div>
       </Carousel>
     </div>

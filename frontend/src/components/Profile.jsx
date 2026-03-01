@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import Navbar from './shared/Navbar'
-import { Avatar } from '@radix-ui/react-avatar'
+import { Avatar, AvatarFallback } from '@radix-ui/react-avatar'
 import { AvatarImage } from './ui/avatar'
 import { Button } from './ui/button'
 import { Contact, Mail, Pen } from 'lucide-react'
