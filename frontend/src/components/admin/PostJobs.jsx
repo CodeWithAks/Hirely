@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Navbar from '../shared/Navbar'
 import { Label } from '../ui/label'
 import { Input } from '../ui/input'
@@ -9,11 +9,15 @@ import axios from 'axios'
 import { JOB_API_END_POINT } from '@/utils/constant.js'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const companyArray = [];
 
 const PostJobs = () => {
+    // Get job ID from URL params (for edit mode)
+    const { id } = useParams();
+    const isEditMode = !!id;
+
     const [input, setInput] = useState({
         title: "",
         description: "",
@@ -26,43 +30,113 @@ const PostJobs = () => {
         companyId: ""
     });
 
-    const [loading,setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [fetchingJob, setFetchingJob] = useState(isEditMode);
 
     const { companies } = useSelector(store => store.company);
     const navigate = useNavigate();
+
+    // Fetch job data if in edit mode
+    useEffect(() => {
+        if (isEditMode && id) {
+            const fetchJobData = async () => {
+                try {
+                    setFetchingJob(true);
+                    const res = await axios.get(`${JOB_API_END_POINT}/get/${id}`, {
+                        withCredentials: true
+                    });
+
+                    // Populate form with fetched job data using optional chaining
+                    if (res?.data?.success && res?.data?.job) {
+                        const job = res.data.job;
+                        setInput({
+                            title: job?.title || "",
+                            description: job?.description || "",
+                            requirements: job?.requirements || "",
+                            salary: job?.salary || "",
+                            location: job?.location || "",
+                            jobType: job?.jobType || "",
+                            experience: job?.experience || 0,
+                            position: job?.position || 0,
+                            companyId: job?.company?._id || job?.companyId || ""
+                        });
+                    }
+                } catch (error) {
+                    toast.error(error?.response?.data?.message || "Failed to fetch job details");
+                } finally {
+                    setFetchingJob(false);
+                }
+            };
+
+            fetchJobData();
+        }
+    }, [id, isEditMode]);
 
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value })
     };
 
     const selectChangeHandler = (value) => {
-        const selectedCompany = companies.find((company)=> company.name.toLowerCase()==value);
-        setInput({...input,companyId:selectedCompany._id});
+        const selectedCompany = companies.find((company) => company?.name?.toLowerCase() === value);
+        setInput({ ...input, companyId: selectedCompany?._id || "" });
     };
 
     const submitHandler = async (e) => {
         e.preventDefault();
         console.log(input);
+        
         try {
-            const res = await axios.post(`${JOB_API_END_POINT}/post`,input,{
-                headers:{
-                    'Content-Type':'application/json'
-                },
-                withCredentials:true
-            });
+            setLoading(true);
 
-            console.log(res.data);
+            // Route: POST to create new job, PUT to update existing job
+            if (isEditMode) {
+                // Edit mode: call PUT endpoint to update
+                const res = await axios.put(`${JOB_API_END_POINT}/update/${id}`, input, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                });
 
-            
-            if(res.data.success){
-                toast.success(res.data.message);
-                navigate("/admin/jobs");
+                console.log(res.data);
+
+                if (res?.data?.success) {
+                    toast.success(res?.data?.message || "Job updated successfully");
+                    navigate("/admin/jobs");
+                }
+            } else {
+                // Create mode: call POST endpoint to create new job
+                const res = await axios.post(`${JOB_API_END_POINT}/post`, input, {
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    withCredentials: true
+                });
+
+                console.log(res.data);
+
+                if (res?.data?.success) {
+                    toast.success(res?.data?.message || "Job posted successfully");
+                    navigate("/admin/jobs");
+                }
             }
         } catch (error) {
-            toast.error(error.response.data.message);
+            toast.error(error?.response?.data?.message || "Error processing request");
         } finally {
             setLoading(false);
         }
+    }
+
+    // Show loading state while fetching job data
+    if (isEditMode && fetchingJob) {
+        return (
+            <div>
+                <Navbar />
+                <div className='flex items-center justify-center w-screen h-screen'>
+                    <Loader2 className='h-8 w-8 animate-spin' />
+                </div>
+            </div>
+        );
     }
 
     return (
@@ -119,34 +193,42 @@ const PostJobs = () => {
                             <Input type="number" name="position" value={input.position} onChange={changeEventHandler} className="focus-visible:ring-offset-0 focus-visibile:ring-0 my-1" />
                         </div>
                         {
-                            companies.length > 0 && (
-                                <Select onValueChange={selectChangeHandler} >
+                            companies?.length > 0 && (
+                                <Select onValueChange={selectChangeHandler} value={input.companyId ? companies.find(c => c._id === input.companyId)?.name?.toLowerCase() || "" : ""}>
                                     <SelectTrigger className="w-[180px]">
                                         <SelectValue placeholder="Select a company" />
                                     </SelectTrigger>
                                     <SelectContent>
                                         <SelectGroup>
                                             {
-                                                companies.map((company)=> {
-                                                    return(
-                                                        <SelectItem value={company?.name?.toLowerCase()}>{company.name}</SelectItem>
+                                                companies.map((company) => {
+                                                    return (
+                                                        <SelectItem key={company._id} value={company?.name?.toLowerCase()}>{company?.name}</SelectItem>
                                                     )
                                                 })
                                             }
-                                            <SelectItem  />
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
                             )
                         }
                     </div>
-                    
+
                     {
-                        loading ? <Button className="w-full my-4"><Loader2 className='mr-2 h-4 w-4 animate-spin' />Please wait</Button> : <Button type="submit" className="w-full my-4">Post New Job</Button>
+                        loading ? (
+                            <Button className="w-full my-4" disabled>
+                                <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                                Please wait
+                            </Button>
+                        ) : (
+                            <Button type="submit" className="w-full my-4">
+                                {isEditMode ? "Update Job" : "Post New Job"}
+                            </Button>
+                        )
                     }
 
                     {
-                        companies.length == 0 && <p className='text-sm text-red-500 font-bold text-center my-3'>*Please register a company first, before posting a job</p>
+                        companies?.length === 0 && <p className='text-sm text-red-500 font-bold text-center my-3'>*Please register a company first, before posting a job</p>
                     }
                 </form>
             </div>

@@ -72,7 +72,7 @@ const Navbar = () => {
                                     </Avatar>
                                 </PopoverTrigger>
                                 <PopoverContent className="w-80">
-                                    <div className='hidden md:flex gap-4'>
+                                    <div className='flex gap-4'>
                                         <Avatar className='cursor-pointer'>
                                             <AvatarImage src={user?.profile?.profilePhoto} alt="@evilrabbit" className='h-12 w-12 rounded-full' />
                                         </Avatar>
@@ -82,7 +82,7 @@ const Navbar = () => {
                                         </div>
                                     </div>
 
-                                    <div className='hidden md:flex flex-col my-2 text-gray-600'>
+                                    <div className='flex flex-col my-2 text-gray-600'>
                                         {
                                             user && user.role == "student" && (
                                                 <div className='flex w-fit items-center gap-2 cursor-pointer'>
@@ -91,7 +91,7 @@ const Navbar = () => {
                                                 </div>
                                             )
                                         }
-                                        <div className='hidden md:flex w-fit items-center gap-2 cursor-pointer'>
+                                        <div className='flex w-fit items-center gap-2 cursor-pointer'>
                                             <LogOut />
                                             <Button variant="link" onClick={logoutHandler}>Logout</Button>
                                         </div>
@@ -173,18 +173,7 @@ const Navbar = () => {
                     </Sheet>
                 </div>
 
-                {/* Avatar */}
-                {user && (
-                    <div className="hidden md:flex items-center gap-2">
-                        <Avatar className="h-8 w-8">
-                            <AvatarImage src={user?.profile?.profilePhoto} alt={user?.fullname} />
-<AvatarFallback>
-  {user?.fullname?.charAt(0) || "U"}
-</AvatarFallback>
-                     
-                        </Avatar>
-                    </div>
-                )}
+
             </div>
         </div>
     )
