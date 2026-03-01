@@ -20,7 +20,7 @@ const Footer = () => {
         <div className="flex flex-col items-center text-center md:items-start md:text-left">
           <h2 className="text-xl font-semibold mb-3">Quick Links</h2>
           <ul className="space-y-2 text-gray-600">
-            <li><Link to="/jobs" className="hover:text-blue-600">Browse Jobs</Link></li>
+            <li><Link to="/browse" className="hover:text-blue-600">Browse Jobs</Link></li>
             <li><Link to="/login" className="hover:text-blue-600">Login</Link></li>
             <li><Link to="/signup" className="hover:text-blue-600">Sign Up</Link></li>
             <li><Link to="/profile" className="hover:text-blue-600">Profile</Link></li>

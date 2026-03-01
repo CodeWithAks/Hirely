@@ -30,11 +30,12 @@ const Profile = () => {
           <div className='flex items-center gap-5'>
             <div className='h-24 w-24 rounded-full overflow-hidden border-2 border-gray-300'>
               <Avatar>
-                <AvatarImage 
-                  src={user?.profile?.profilePhoto} 
-                  className="h-24 w-24 aspect-square object-cover" 
-                  alt="profile" 
+                <AvatarImage
+                  src={user?.profile?.profilePhoto}
+                  className="aspect-square object-cover h-full w-full"
+                  alt="profile"
                 />
+                <AvatarFallback className='text-lg'>{user?.fullname?.charAt(0)}</AvatarFallback>
               </Avatar>
             </div>
             <div>
@@ -92,16 +93,16 @@ const Profile = () => {
           <Label className="text-md font-semibold">Resume</Label>
           <div className="mt-1">
             {
-              isResume 
-              ? (
-                <a 
-                  target="blank" 
-                  href={user?.profile?.resume} 
+                isResume ? (
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={user?.profile?.resume}
                   className='text-blue-600 hover:text-blue-800 underline'
                 >
                   {user?.profile?.resumeOriginalName}
                 </a>
-              ) 
+              )
               : <span className="text-gray-500">Not Applicable</span>
             }
           </div>
