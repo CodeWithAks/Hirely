@@ -38,7 +38,7 @@ const JobDescription = () => {
     useEffect(() => {
         const fetchSingleJob = async () => {
             try {
-                const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
+                const res = await axios.post(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
                 if (res.data.success) {
                     dispatch(setSingleJob(res.data.job));
                     setIsApplied(res.data.job.applications.some(application => application.applicant == user?._id))
@@ -112,7 +112,9 @@ const JobDescription = () => {
                                 <div className='p-3 bg-white rounded-xl shadow-sm text-purple-600'><Briefcase size={20}/></div>
                                 <div>
                                     <p className='text-xs text-gray-400 font-bold uppercase'>Experience</p>
-                                    <p className='font-semibold text-gray-700'>{singleJob?.experience} Years</p>
+                                    <p className='font-semibold text-gray-700'>
+                                        {singleJob?.experienceLevel || (singleJob?.experience ? `${singleJob.experience} Years` : 'Not specified')}
+                                    </p>
                                 </div>
                             </div>
                             <div className='flex items-center gap-4'>
