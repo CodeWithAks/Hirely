@@ -11,13 +11,13 @@ const Browse = () => {
     const {allJobs, searchedQuery} = useSelector(store=>store.job);
     const dispatch  = useDispatch();
 
-    useEffect(()=> {
-        return ()=>{
-            dispatch(setSearchedQuery(""));
-        }
-    })
+    useEffect(() => {
+    return () => {
+        dispatch(setSearchedQuery(""));
+    };
+}, [dispatch]);
 
-    // Filter jobs based on searchedQuery (case-insensitive matching against title and description)
+    // Filter jobs based on searchedQuery
     const filteredJobs = allJobs.filter((job) => {
         if (!searchedQuery) return true;
         
