@@ -38,13 +38,20 @@ export const postJob = async(req,res) => {
 //to get job - for students
 export const getAllJobs = async(req,res) => {
     try {
-        const keyword = req.query.keyword || "";
-        const query = {
-            $or:[
-                {title:{$regex:keyword,$options:"i"}},
-                {description:{$regex:keyword,$options:"i"}},
-            ]
+        const keyword = (req.query.keyword || "").trim();
+        // build a dynamic query; if no keyword provided it'll return all jobs
+        let query = {};
+        if(keyword) {
+            query = {
+                $or: [
+                    { title: { $regex: keyword, $options: "i" } },
+                    { description: { $regex: keyword, $options: "i" } },
+                    { location: { $regex: keyword, $options: "i" } },
+                    { salary: { $regex: keyword, $options: "i" } },
+                ]
+            };
         }
+
         const jobs = await Job.find(query).populate({ //populate se company ki inf. aayegi 
             path:"company"
         }).sort({createdAt:-1});

@@ -35,7 +35,7 @@ const Navbar = () => {
         <div className='p-4'>
             <div className='flex items-center justify-between mx-auto max-w-7xl h-16'>
                 <div>
-                    <h1 className='text-blue-800 font-bold text-2xl md:text-4xl'>Hirely</h1>
+                    <h1 className='text-blue-800 font-bold text-2xl md:text-4xl'>Hirely Portal</h1>
                 </div>
 
                 {/* Dekstop Navigation */}
@@ -67,8 +67,8 @@ const Navbar = () => {
                         ) : (
                             <Popover>
                                 <PopoverTrigger asChild>
-                                    {/* wrapper ensures fixed size and rounded overflow */}
-                                    <div className='h-10 w-10 rounded-full overflow-hidden cursor-pointer'>
+                                    {/* trigger with fixed circle and preventing shrink */}
+                                    <div className='h-12 w-12 rounded-full overflow-hidden shrink-0 cursor-pointer'>
                                         <Avatar className='h-full w-full'>
                                             <AvatarImage
                                                 src={user?.profile?.profilePhoto}
@@ -81,7 +81,7 @@ const Navbar = () => {
                                 </PopoverTrigger>
                                 <PopoverContent className="w-80">
                                     <div className='flex gap-4'>
-                                        <div className='h-10 w-10 rounded-full overflow-hidden'>
+                                        <div className='h-14 w-14 rounded-full overflow-hidden shrink-0'>
                                             <Avatar className='h-full w-full'>
                                                 <AvatarImage
                                                     src={user?.profile?.profilePhoto}
@@ -91,9 +91,11 @@ const Navbar = () => {
                                                 <AvatarFallback className='text-sm'>{user?.fullname?.charAt(0)}</AvatarFallback>
                                             </Avatar>
                                         </div>
-                                        <div>
-                                            <h4 className='font-medium'>{user?.fullname}</h4>
-                                            <p className='text-sm text-muted-foreground'>{user?.profile?.bio}</p>
+                                        <div className='flex-1'>
+                                            <h4 className='font-medium truncate'>{user?.fullname}</h4>
+                                            <p className='text-sm text-muted-foreground line-clamp-2'>
+                                                {user?.profile?.bio}
+                                            </p>
                                         </div>
                                     </div>
 
@@ -129,6 +131,26 @@ const Navbar = () => {
                         </SheetTrigger>
                         <SheetContent side="right" className="w-full sm:w-80">
                             <nav className="flex flex-col gap-4 mt-6">
+                                {user && (
+                                    <div className="flex items-center gap-4 mb-4">
+                                        <div className='h-12 w-12 rounded-full overflow-hidden shrink-0'>
+                                            <Avatar className='h-full w-full'>
+                                                <AvatarImage
+                                                    src={user?.profile?.profilePhoto}
+                                                    alt={user?.fullname || 'profile'}
+                                                    className='aspect-square object-cover h-full w-full'
+                                                />
+                                                <AvatarFallback className='text-sm'>{user?.fullname?.charAt(0)}</AvatarFallback>
+                                            </Avatar>
+                                        </div>
+                                        <div className='flex-1'>
+                                            <h4 className='font-medium truncate'>{user?.fullname}</h4>
+                                            <p className='text-sm text-muted-foreground line-clamp-2'>
+                                                {user?.profile?.bio}
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
                                 {user && user.role === "recruiter" ? (
                                     <>
                                         <Link to="/admin/companies" className="text-lg font-medium hover:text-purple-600">

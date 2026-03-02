@@ -48,10 +48,11 @@ const FilterCard = () => {
               <h1 className='font-bold text-base md:text-lg my-4'>{data.filterType}</h1>
               {
                 data.array.map((item,idx) => {
+                  const uniqueId = `${data.filterType}-${item}`;
                   return(
                     <div key={idx} className='flex items-center gap-3 my-4 p-2 rounded hover:bg-gray-50 cursor-pointer transition-colors'>
-                      <RadioGroupItem id={item} value={item} className="cursor-pointer" />
-                        <Label htmlFor={item} className='cursor-pointer text-sm md:text-base'>{item}</Label>
+                      <RadioGroupItem id={uniqueId} value={item} className="cursor-pointer" />
+                        <Label htmlFor={uniqueId} className='cursor-pointer text-sm md:text-base'>{item}</Label>
                     </div>
                   )
                 })
