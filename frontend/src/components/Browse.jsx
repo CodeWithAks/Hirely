@@ -8,7 +8,7 @@ import useGetAllJobs from '@/hooks/useGetAllJobs';
 
 const Browse = () => {
     useGetAllJobs();
-    const {allJobs} = useSelector(store=>store.job);
+    const {allJobs, searchedQuery} = useSelector(store=>store.job);
     const dispatch  = useDispatch();
 
     useEffect(()=> {
@@ -17,14 +17,25 @@ const Browse = () => {
         }
     })
 
+    // Filter jobs based on searchedQuery (case-insensitive matching against title and description)
+    const filteredJobs = allJobs.filter((job) => {
+        if (!searchedQuery) return true;
+        
+        const searchLower = searchedQuery.toLowerCase();
+        const titleMatch = job?.title?.toLowerCase().includes(searchLower);
+        const descriptionMatch = job?.description?.toLowerCase().includes(searchLower);
+        
+        return titleMatch || descriptionMatch;
+    });
+
   return (
     <div>
         <Navbar/>
         <div className='max-w-7xl mx-auto my-10 px-4'>
-            <h1 className='font-bold text-lg md:text-xl my-10'>Search Results ({allJobs.length})</h1>
+            <h1 className='font-bold text-lg md:text-xl my-10'>Search Results ({filteredJobs.length})</h1>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4'>
             {
-                allJobs.map((job)=> {
+                filteredJobs.map((job)=> {
                     return (
                         <Job key={job._id} job={job} />
                     )

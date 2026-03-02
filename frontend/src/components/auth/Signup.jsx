@@ -81,29 +81,29 @@ const Signup = () => {
                     {/* full name */}
                     <div className='my-2'>
                         <Label>Full Name</Label>
-                        <Input type="text" placeholder="Akshara Goyal" value={input.fullname} name="fullname" onChange={changeEventHandler} ></Input>
+                        <Input type="text" placeholder="John Doe" value={input.fullname} name="fullname" onChange={changeEventHandler} className="hover:border-gray-400 transition" ></Input>
                     </div>
 
                     {/* email */}
                     <div className='my-2'>
                         <Label>Email</Label>
-                        <Input type="email" placeholder="aks123@email.com" value={input.email} name="email" onChange={changeEventHandler}></Input>
+                        <Input type="email" placeholder="johndoe@example.com" value={input.email} name="email" onChange={changeEventHandler} className="hover:border-gray-400 transition"></Input>
                     </div>
 
                     {/* Phone Number */}
                     <div className='my-2'>
                         <Label>Phone Number</Label>
-                        <Input type="text" placeholder="8957859348" value={input.phoneNumber} name="phoneNumber" onChange={changeEventHandler}></Input>
+                        <Input type="text" placeholder="9876543210" value={input.phoneNumber} name="phoneNumber" onChange={changeEventHandler} className="hover:border-gray-400 transition"></Input>
                     </div>
 
                     {/* Password */}
                     <div className='my-2'>
                         <Label>Password</Label>
-                        <Input type="password" placeholder="Enter your password" value={input.password} name="password" onChange={changeEventHandler}></Input>
+                        <Input type="password" placeholder="********" value={input.password} name="password" onChange={changeEventHandler} className="hover:border-gray-400 transition"></Input>
                     </div>
 
                     {/* Role Selection */}
-                    <div className='flex items-center justify-between'>
+                    <div className='flex items-center justify-between mt-6'>
                         <RadioGroup className='flex items-center gap-4 my-5'>
                             <div className="flex items-center gap-3">
                                 <Input type="radio" name="role" value="student" className="cursor-pointer"
