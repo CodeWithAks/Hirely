@@ -35,7 +35,7 @@ const Navbar = () => {
         <div className='p-4'>
             <div className='flex items-center justify-between mx-auto max-w-7xl h-16'>
                 <div>
-                    <h1 className='text-blue-800 font-bold text-2xl md:text-4xl'>Hirely Portal</h1>
+                    <h1 className='text-blue-800 font-bold text-2xl md:text-4xl'>Hirely</h1>
                 </div>
 
                 {/* Dekstop Navigation */}
