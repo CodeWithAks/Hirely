@@ -13,10 +13,9 @@ import { motion } from 'framer-motion';
 const JobDescription = () => {
     const { singleJob } = useSelector(store => store.job);
     const { user } = useSelector(store => store.auth);
-    
+
     // only check applications if the user exists
-    const isInitiallyApplied = user && singleJob?.applications?.some(application => application.applicant === user._id) || false;
-    const [isApplied, setIsApplied] = useState(isInitiallyApplied);
+    const [isApplied, setIsApplied] = useState(false);
 
     const params = useParams();
     const jobId = params.id;
@@ -24,54 +23,111 @@ const JobDescription = () => {
 
     const navigate = useNavigate();
 
+    // const applyJobHandler = async () => {
+    //     // if user is not logged in redirect to login page
+    //     if (!user) {
+    //         navigate('/login');
+    //         return;
+    //     }
+
+    //     try {
+    //         const res = await axios.post(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true });
+    //         if (res.data.success) {
+    //             setIsApplied(true);
+    //             const updatedSingleJob = { ...singleJob, applications: [...(singleJob?.applications || []), { applicant: user._id }] };
+    //             dispatch(setSingleJob(updatedSingleJob));
+    //             toast.success(res.data.message);
+    //         }
+    //     } catch (error) {
+    //         toast.error(error.response?.data?.message || "Something went wrong");
+    //     }
+    // }
+
     const applyJobHandler = async () => {
-        // if user is not logged in redirect to login page
         if (!user) {
             navigate('/login');
             return;
         }
 
         try {
-            const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true });
+            const res = await axios.post(
+                `${APPLICATION_API_END_POINT}/apply/${jobId}`,
+                {},
+                { withCredentials: true }
+            );
+
             if (res.data.success) {
                 setIsApplied(true);
-                const updatedSingleJob = { ...singleJob, applications: [...(singleJob?.applications || []), { applicant: user._id }] };
-                dispatch(setSingleJob(updatedSingleJob));
+
+                dispatch(setSingleJob({
+                    ...singleJob,
+                    applications: [
+                        ...(singleJob?.applications || []),
+                        { applicant: user._id }
+                    ]
+                }));
+
                 toast.success(res.data.message);
             }
         } catch (error) {
             toast.error(error.response?.data?.message || "Something went wrong");
         }
-    }
+    };
+
+    // useEffect(() => {
+    //     const fetchSingleJob = async () => {
+    //         try {
+    //             const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
+    //             if (res.data.success) {
+    //                 dispatch(setSingleJob(res.data.job));
+    //                 setIsApplied(res.data.job.applications.some(application => application.applicant == user?._id))
+    //             }
+    //         } catch (error) {
+    //             console.log(error);
+    //         }
+    //     }
+    //     fetchSingleJob();
+    // }, [jobId, dispatch, user?._id]);
 
     useEffect(() => {
         const fetchSingleJob = async () => {
             try {
-                const res = await axios.post(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
+                const res = await axios.get(
+                    `${JOB_API_END_POINT}/get/${jobId}`,
+                    { withCredentials: true }
+                );
+
                 if (res.data.success) {
                     dispatch(setSingleJob(res.data.job));
-                    setIsApplied(res.data.job.applications.some(application => application.applicant == user?._id))
+
+                    if (user) {
+                        const applied = res.data.job.applications.some(
+                            application => application.applicant === user._id
+                        );
+                        setIsApplied(applied);
+                    }
                 }
             } catch (error) {
                 console.log(error);
             }
-        }
+        };
+
         fetchSingleJob();
-    }, [jobId, dispatch, user?._id]);
+    }, [jobId]);
 
     if (!singleJob) return <div className='h-screen flex items-center justify-center'>Loading...</div>;
 
     return (
-        <motion.div 
-            initial={{ opacity: 0 }} 
-            animate={{ opacity: 1 }} 
+        <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className='max-w-7xl mx-auto my-10 px-4'
         >
-            {/* Header / Top Bar */}
+            {/*Top Bar */}
             <div className='flex flex-col md:flex-row items-start md:items-center justify-between gap-6 bg-white p-8 rounded-2xl border border-gray-100 shadow-sm'>
                 <div className='space-y-4'>
                     <button onClick={() => window.history.back()} className='flex items-center gap-2 text-gray-500 hover:text-blue-600 transition-colors text-sm font-medium'>
-                        <ArrowLeft size={16}/> Back to Jobs
+                        <ArrowLeft size={16} /> Back to Jobs
                     </button>
                     <h1 className='font-extrabold text-3xl md:text-4xl text-gray-900'>{singleJob?.title}</h1>
                     <div className='flex flex-wrap items-center gap-3'>
@@ -80,16 +136,15 @@ const JobDescription = () => {
                         <Badge className='bg-red-50 text-red-700 border-none px-4 py-1' variant="outline">{singleJob?.salary} LPA</Badge>
                     </div>
                 </div>
-                
-                <Button 
-                    onClick={applyJobHandler} 
-                    disabled={isApplied} 
+
+                <Button
+                    onClick={applyJobHandler}
+                    disabled={isApplied}
                     size="lg"
-                    className={`rounded-full px-10 py-7 text-lg font-bold transition-all shadow-lg active:scale-95 ${
-                        isApplied 
-                        ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200' 
-                        : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200'
-                    }`}
+                    className={`rounded-full px-10 py-7 text-lg font-bold transition-all shadow-lg active:scale-95 ${isApplied
+                            ? 'bg-gray-100 text-gray-400 cursor-not-allowed border border-gray-200'
+                            : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200'
+                        }`}
                 >
                     {isApplied ? 'Application Sent' : (user ? 'Apply Now' : 'Login to Apply')}
                 </Button>
@@ -97,7 +152,7 @@ const JobDescription = () => {
 
             {/* Main Content Grid */}
             <div className='grid grid-cols-1 lg:grid-cols-3 gap-10 my-10'>
-                
+
                 {/* Left Side: Details */}
                 <div className='lg:col-span-2 space-y-8'>
                     <section>
@@ -111,14 +166,14 @@ const JobDescription = () => {
                         <h2 className='text-xl font-bold text-gray-900 mb-4 font-mono uppercase tracking-tighter'>Role Highlights</h2>
                         <div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
                             <div className='flex items-center gap-4'>
-                                <div className='p-3 bg-white rounded-xl shadow-sm text-blue-600'><MapPin size={20}/></div>
+                                <div className='p-3 bg-white rounded-xl shadow-sm text-blue-600'><MapPin size={20} /></div>
                                 <div>
                                     <p className='text-xs text-gray-400 font-bold uppercase'>Location</p>
                                     <p className='font-semibold text-gray-700'>{singleJob?.location || "Remote"}</p>
                                 </div>
                             </div>
                             <div className='flex items-center gap-4'>
-                                <div className='p-3 bg-white rounded-xl shadow-sm text-purple-600'><Briefcase size={20}/></div>
+                                <div className='p-3 bg-white rounded-xl shadow-sm text-purple-600'><Briefcase size={20} /></div>
                                 <div>
                                     <p className='text-xs text-gray-400 font-bold uppercase'>Experience</p>
                                     <p className='font-semibold text-gray-700'>
@@ -127,14 +182,14 @@ const JobDescription = () => {
                                 </div>
                             </div>
                             <div className='flex items-center gap-4'>
-                                <div className='p-3 bg-white rounded-xl shadow-sm text-green-600'><Wallet size={20}/></div>
+                                <div className='p-3 bg-white rounded-xl shadow-sm text-green-600'><Wallet size={20} /></div>
                                 <div>
                                     <p className='text-xs text-gray-400 font-bold uppercase'>Salary</p>
                                     <p className='font-semibold text-gray-700'>{singleJob?.salary} LPA</p>
                                 </div>
                             </div>
                             <div className='flex items-center gap-4'>
-                                <div className='p-3 bg-white rounded-xl shadow-sm text-orange-600'><Calendar size={20}/></div>
+                                <div className='p-3 bg-white rounded-xl shadow-sm text-orange-600'><Calendar size={20} /></div>
                                 <div>
                                     <p className='text-xs text-gray-400 font-bold uppercase'>Posted On</p>
                                     <p className='font-semibold text-gray-700'>{singleJob?.createdAt?.split("T")[0]}</p>
@@ -144,13 +199,13 @@ const JobDescription = () => {
                     </section>
                 </div>
 
-                {/* Right Side: Quick Stats / Sidebar */}
+                {/* Sidebar */}
                 <div className='lg:col-span-1'>
                     <div className='sticky top-24 p-6 rounded-2xl border border-gray-100 bg-white shadow-sm space-y-6'>
                         <h3 className='font-bold text-lg text-gray-900'>Engagement</h3>
                         <div className='flex items-center justify-between p-4 bg-blue-50/50 rounded-xl'>
                             <div className='flex items-center gap-3'>
-                                <Users className='text-blue-600' size={20}/>
+                                <Users className='text-blue-600' size={20} />
                                 <span className='text-sm font-medium text-gray-600'>Total Applicants</span>
                             </div>
                             <span className='font-bold text-blue-700 text-lg'>{singleJob?.applications?.length}</span>
