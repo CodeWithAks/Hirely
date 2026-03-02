@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
+import { Button } from '@/components/ui/button'
 import { useDispatch } from 'react-redux'
 import { setSearchedQuery } from '@/redux/jobSlice'
 
@@ -32,6 +33,12 @@ const FilterCard = () => {
   const changeHandler = (value) => {
     setSelectedValue(value);
   }
+
+  const clearFilters = () => {
+    setSelectedValue("");
+    dispatch(setSearchedQuery(""));
+  };
+
   useEffect(()=> {
     dispatch(setSearchedQuery(selectedValue))
     console.log(selectedValue);
@@ -39,7 +46,10 @@ const FilterCard = () => {
 
   return (
     <div className='w-full bg-white p-4 md:p-6 rounded-md'>
-      <h1 className='font-bold text-base md:text-lg'>Filter Jobs</h1>
+      <div className='flex items-center justify-between'>
+        <h1 className='font-bold text-base md:text-lg'>Filter Jobs</h1>
+        <Button variant="ghost" size="sm" onClick={clearFilters}>Clear Filters</Button>
+      </div>
       <hr className='mt-4'/>
       <RadioGroup value={selectedValue} onValueChange={changeHandler} >
         {

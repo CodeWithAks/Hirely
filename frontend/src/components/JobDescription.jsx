@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Badge } from './ui/badge'
 import { Button } from './ui/button'
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { APPLICATION_API_END_POINT, JOB_API_END_POINT } from '@/utils/constant';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,19 +14,28 @@ const JobDescription = () => {
     const { singleJob } = useSelector(store => store.job);
     const { user } = useSelector(store => store.auth);
     
-    const isInitiallyApplied = singleJob?.applications?.some(application => application.applicant === user?._id) || false;
+    // only check applications if the user exists
+    const isInitiallyApplied = user && singleJob?.applications?.some(application => application.applicant === user._id) || false;
     const [isApplied, setIsApplied] = useState(isInitiallyApplied);
 
     const params = useParams();
     const jobId = params.id;
     const dispatch = useDispatch();
 
+    const navigate = useNavigate();
+
     const applyJobHandler = async () => {
+        // if user is not logged in redirect to login page
+        if (!user) {
+            navigate('/login');
+            return;
+        }
+
         try {
             const res = await axios.get(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true });
             if (res.data.success) {
                 setIsApplied(true);
-                const updatedSingleJob = { ...singleJob, applications: [...singleJob.applications, { applicant: user?._id }] };
+                const updatedSingleJob = { ...singleJob, applications: [...(singleJob?.applications || []), { applicant: user._id }] };
                 dispatch(setSingleJob(updatedSingleJob));
                 toast.success(res.data.message);
             }
@@ -73,7 +82,7 @@ const JobDescription = () => {
                 </div>
                 
                 <Button 
-                    onClick={isApplied ? null : applyJobHandler} 
+                    onClick={applyJobHandler} 
                     disabled={isApplied} 
                     size="lg"
                     className={`rounded-full px-10 py-7 text-lg font-bold transition-all shadow-lg active:scale-95 ${
@@ -82,7 +91,7 @@ const JobDescription = () => {
                         : 'bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200'
                     }`}
                 >
-                    {isApplied ? 'Application Sent' : 'Apply Now'}
+                    {isApplied ? 'Application Sent' : (user ? 'Apply Now' : 'Login to Apply')}
                 </Button>
             </div>
 
@@ -113,7 +122,7 @@ const JobDescription = () => {
                                 <div>
                                     <p className='text-xs text-gray-400 font-bold uppercase'>Experience</p>
                                     <p className='font-semibold text-gray-700'>
-                                        {singleJob?.experienceLevel || (singleJob?.experience ? `${singleJob.experience} Years` : 'Not specified')}
+                                        {singleJob?.experienceLevel || (singleJob?.experience ? `${singleJob?.experience} Years` : 'Not specified')}
                                     </p>
                                 </div>
                             </div>
