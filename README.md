@@ -5,24 +5,25 @@ It allows recruiters to post jobs and manage applications, while candidates can 
 
 The application implements authentication, role-based access control, and structured state management.
 
-# Tech Stack :
+## Tech Stack
 
--Frontend
-React.js (Vite)
-Redux Toolkit
-Tailwind CSS
+### Frontend
+- React.js (Vite)
+- Redux Toolkit
+- Tailwind CSS
 
--Backend
-Node.js
-Express.js
-JWT Authentication
-Middleware
-Database
-MongoDB (Mongoose)
+### Backend
+- Node.js
+- Express.js
+- JWT Authentication
+- Middleware
 
--Deployment
-Frontend: Vercel
-Backend: Render
+### Database
+- MongoDB (Mongoose)
+
+### Deployment
+- Frontend: Vercel
+- Backend: Render
 
 # Key features :
 1. JWT-based authentication with bcrypt password encryption
@@ -33,11 +34,12 @@ Backend: Render
 6. Persistent login state
 7. Secure cross-origin communication between frontend and backend
 
-# Architecture :
-React frontend communicates with Express backend via REST APIs
-JWT stored securely for protected routes
-MongoDB schemas designed for Users, Jobs, Companies, and Applications
-Frontend and backend deployed as separate services
+## Architecture
+- React frontend communicates with Express backend via REST APIs
+- JWT used for authentication and protected routes
+- MongoDB schemas designed for Users, Jobs, Companies, and Applications
+- Frontend and backend deployed as separate services
+
 
 # Installation :
 ```bash
