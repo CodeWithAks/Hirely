@@ -36,7 +36,7 @@ const PostJobs = () => {
     const { companies } = useSelector(store => store.company);
     const navigate = useNavigate();
 
-    // Fetch job data if in edit mode
+    // Fetch job data 
     useEffect(() => {
         if (isEditMode && id) {
             const fetchJobData = async () => {
@@ -90,7 +90,6 @@ const PostJobs = () => {
 
             // Route: POST to create new job, PUT to update existing job
             if (isEditMode) {
-                // Edit mode: call PUT endpoint to update
                 const res = await axios.put(`${JOB_API_END_POINT}/update/${id}`, input, {
                     headers: {
                         'Content-Type': 'application/json'
@@ -127,7 +126,7 @@ const PostJobs = () => {
         }
     }
 
-    // Show loading state while fetching job data
+    // loading state while fetching job data
     if (isEditMode && fetchingJob) {
         return (
             <div>

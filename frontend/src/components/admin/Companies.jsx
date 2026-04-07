@@ -15,7 +15,7 @@ const Companies = () => {
     const dispatch = useDispatch();
 
     useEffect(()=> {
-        dispatch(setSearchCompanyByText(input)); //hook se 
+        dispatch(setSearchCompanyByText(input));  
     },[input]);
 
 

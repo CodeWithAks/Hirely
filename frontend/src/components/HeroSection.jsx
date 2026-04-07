@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react' 
 import { Button } from './ui/button'
 import { Search } from 'lucide-react'
 import { useDispatch } from 'react-redux'
@@ -12,12 +12,12 @@ const HeroSection = () => {
     const navigate = useNavigate()
     
     //Typewriter Effect
-    const [titleIndex, setTitleIndex] = useState(0);
+    const [titleIndex, setTitleIndex] = useState(0); 
     const titles = ["Frontend Developer", "Data Scientist", "Product Designer", "Backend Engineer"];
 
     useEffect(() => {
         const interval = setInterval(() => {
-            setTitleIndex((prev) => (prev + 1) % titles.length);
+            setTitleIndex((prev) => (prev + 1) % titles.length); 
         }, 3000); 
         return () => clearInterval(interval);
     }, []);
@@ -45,7 +45,7 @@ const HeroSection = () => {
                     className="flex flex-col gap-6 items-center"
                 >
                     <span className="px-4 py-2 rounded-full bg-blue-50 text-blue-700 font-semibold border border-blue-100 text-sm tracking-wide shadow-sm">
-                        🚀 No. 1 Job Hunt Website
+                         No. 1 Job Hunt Website
                     </span>
 
                     {/* Headline */}

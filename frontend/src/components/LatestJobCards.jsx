@@ -1,8 +1,8 @@
 import React from 'react'
 import { Badge } from './ui/badge'
 import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion'; // For the smooth hover effect
-import { MapPin, Clock, DollarSign } from 'lucide-react'; // Better icons
+import { motion } from 'framer-motion'; 
+import { MapPin, Clock, DollarSign } from 'lucide-react'; 
 
 const LatestJobCards = ({ job }) => {
     const navigate = useNavigate();
@@ -15,6 +15,7 @@ const LatestJobCards = ({ job }) => {
             className='p-6 rounded-2xl bg-white border border-gray-100 shadow-sm hover:shadow-xl cursor-pointer transition-all group'>
             <div className='flex items-center justify-between mb-4'>
                 <div className='flex items-center gap-3'>
+
                     {/* Company Logo Placeholder */}
                     <div className='w-12 h-12 bg-gray-50 border border-gray-100 rounded-lg flex items-center justify-center font-bold text-blue-600 group-hover:bg-blue-600 group-hover:text-white transition-colors'>
                         {job?.company?.name?.charAt(0) || "J"}

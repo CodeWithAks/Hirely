@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import Navbar from '../shared/Navbar'
+import Navbar from '../shared/Navbar' 
 import { Label } from '@radix-ui/react-label'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
@@ -135,7 +135,6 @@ const Signup = () => {
                     }
 
                     {/* Signup Button */}
-                    {/* <Button type="submit" className="w-full my-4">Signup</Button> */}
                     <span>Already have an account ? <Link to="/login" className="text-blue-600">Login</Link></span>
                 </form>
 

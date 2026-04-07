@@ -23,25 +23,6 @@ const JobDescription = () => {
 
     const navigate = useNavigate();
 
-    // const applyJobHandler = async () => {
-    //     // if user is not logged in redirect to login page
-    //     if (!user) {
-    //         navigate('/login');
-    //         return;
-    //     }
-
-    //     try {
-    //         const res = await axios.post(`${APPLICATION_API_END_POINT}/apply/${jobId}`, { withCredentials: true });
-    //         if (res.data.success) {
-    //             setIsApplied(true);
-    //             const updatedSingleJob = { ...singleJob, applications: [...(singleJob?.applications || []), { applicant: user._id }] };
-    //             dispatch(setSingleJob(updatedSingleJob));
-    //             toast.success(res.data.message);
-    //         }
-    //     } catch (error) {
-    //         toast.error(error.response?.data?.message || "Something went wrong");
-    //     }
-    // }
 
     const applyJobHandler = async () => {
         if (!user) {
@@ -73,21 +54,6 @@ const JobDescription = () => {
             toast.error(error.response?.data?.message || "Something went wrong");
         }
     };
-
-    // useEffect(() => {
-    //     const fetchSingleJob = async () => {
-    //         try {
-    //             const res = await axios.get(`${JOB_API_END_POINT}/get/${jobId}`, { withCredentials: true });
-    //             if (res.data.success) {
-    //                 dispatch(setSingleJob(res.data.job));
-    //                 setIsApplied(res.data.job.applications.some(application => application.applicant == user?._id))
-    //             }
-    //         } catch (error) {
-    //             console.log(error);
-    //         }
-    //     }
-    //     fetchSingleJob();
-    // }, [jobId, dispatch, user?._id]);
 
     useEffect(() => {
         const fetchSingleJob = async () => {

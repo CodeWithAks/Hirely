@@ -12,7 +12,7 @@ export const registerCompany = async(req,res)=> {
                 success:false
             });
         }
-        let company  = await Company.findOne({name:companyName}); //db mei check krega if that company exists
+        let company  = await Company.findOne({name:companyName}); 
         if(company){  //if yes return error
             return res.status(400).json({
                 message:"You can't register the same company",
@@ -83,7 +83,7 @@ export const updateCompany = async(req,res) => {
         //cloudinary
         const fileUri = getDataUri(file);
         const cloudResponse = await cloudinary.uploader.upload(fileUri.content);
-        const logo = cloudResponse.secure_url; //logo ka url jisko koi bhi access kr skta hai 
+        const logo = cloudResponse.secure_url; 
 
         const updateData = {name,description,website,location, logo};
 

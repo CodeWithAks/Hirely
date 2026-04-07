@@ -52,7 +52,7 @@ const Jobs = () => {
         </div>
 
         <div className='flex gap-5'>
-          {/* Desktop Sidebar - Hidden on mobile */}
+          {/* Desktop Sidebar */}
           <div className='hidden md:block md:w-[20%]'>
             <FilterCard />
           </div>

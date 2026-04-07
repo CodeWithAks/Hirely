@@ -1,5 +1,5 @@
 //For new User registration
-import { User } from "../models/user.model.js";
+import { User } from "../models/user.model.js"; 
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import getdatauri from "../utils/datauri.js";
@@ -17,7 +17,7 @@ export const register = async (req, res) => {
         };
 
         // cloudinary for image uploading
-        const file = req.file;
+        const file = req.file;   
         const fileuri = getdatauri(file);
         const cloudResponse = await cloudinary.uploader.upload(fileuri.content);
 
@@ -88,12 +88,12 @@ export const login = async (req, res) => {
             })
         };
 
-        const tokenData = {
+        const tokenData = {  
             userId: user._id
         }
-        const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: "1d" });
+        const token = jwt.sign(tokenData, process.env.SECRET_KEY, { expiresIn: "1d" }); 
 
-        user = {
+        user = { 
             _id: user._id,
             fullname: user.fullname,
             email: user.email,
@@ -102,10 +102,10 @@ export const login = async (req, res) => {
             profile: user.profile
         }
 
-        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "None", secure: true }).json({
-            message: `Welcome back ${user.fullname}`,
-            user,
-            success: true
+        return res.status(200).cookie("token", token, { maxAge: 1 * 24 * 60 * 60 * 1000, httpOnly: true, sameSite: "None", secure: true }).json({ 
+            message: `Welcome back ${user.fullname}`, 
+            user, 
+            success: true 
         })
     } catch (error) {
         console.log(error);
@@ -119,7 +119,7 @@ export const login = async (req, res) => {
 //logout
 export const logout = async (req, res) => {
     try {
-        return res.status(200).cookie("token", " ", { maxAge: 0 }).json({
+        return res.status(200).cookie("token", " ", { maxAge: 0 }).json({ 
             message: "Logged out successfully.",
             success: true
         })
@@ -136,21 +136,20 @@ export const logout = async (req, res) => {
 export const updateProfile = async (req, res) => {
     try {
         const { fullname, email, phoneNumber, bio, skills } = req.body;
-        const file = req.file;
+        const file = req.file;  
 
-        const fileuri = getdatauri(file);
-        const cloudResponse = await cloudinary.uploader.upload(fileuri.content, {
-            resource_type: "auto", // Keeps it dynamic
-            flags: "attachment"
+        const fileuri = getdatauri(file); 
+        const cloudResponse = await cloudinary.uploader.upload(fileuri.content, { 
+            resource_type: "auto", // if it's an image or pdf, cloudinary will handle it accordingly
         });
 
 
-        //cloudinary ....  
+       //skills section 
         let skillsArray = [];
-        if (skills && typeof skills === "string") {
-            skillsArray = skills.split(",");
+        if (skills && typeof skills === "string") { 
+            skillsArray = skills.split(","); 
         }
-        const userId = req.id; //middleware authentication
+        const userId = req.id; //middleware authentication 
         let user = await User.findById(userId);
         if (!user) {
             return res.status(400).json({
@@ -159,18 +158,18 @@ export const updateProfile = async (req, res) => {
             })
         }
 
-        //updating data - (user ne jo bhi update kra hoga vo update ho jaayega)
-        if (!user.profile) user.profile = {};
+        //updating data 
+        if (!user.profile) user.profile = {}; 
         if (fullname) user.fullname = fullname
-        if (email) user.email = email
+        if (email) user.email = email 
         if (phoneNumber) user.phoneNumber = phoneNumber
         if (bio) user.profile.bio = bio
         if (skills) user.profile.skills = skillsArray
 
         //resume....
-        if (cloudResponse) {
-            user.profile.resume = cloudResponse.secure_url //saving the cloudinary
-            user.profile.resumeOriginalName = file.originalname //saving the original file name
+        if (cloudResponse) { 
+            user.profile.resume = cloudResponse.secure_url //saving the cloudinary 
+            user.profile.resumeOriginalName = file.originalname //saving the original file name 
         }
 
 

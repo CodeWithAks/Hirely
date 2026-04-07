@@ -99,7 +99,7 @@ const UpdateProfiledDialogue = ({ open, setOpen }) => {
                             <div className='grid grid-cols-4 items-center gap-4'>
                                 <Label htmlFor="email" className="text-right">Email</Label>
                                 <Input
-                                    id="email"  //id aur htmlfor match hona chahiye
+                                    id="email"  
                                     className="col-span-3"
                                     value={input.email}
                                     name="email"
@@ -111,7 +111,7 @@ const UpdateProfiledDialogue = ({ open, setOpen }) => {
                             <div className='grid grid-cols-4 items-center gap-4'>
                                 <Label htmlFor="number" className="text-right">Number</Label>
                                 <Input
-                                    id="number"  //id aur htmlfor match hona chahiye
+                                    id="number"  
                                     className="col-span-3"
                                     value={input.phoneNumber}
                                     name="phoneNumber"
@@ -123,7 +123,7 @@ const UpdateProfiledDialogue = ({ open, setOpen }) => {
                             <div className='grid grid-cols-4 items-center gap-4'>
                                 <Label htmlFor="bio" className="text-right">Bio</Label>
                                 <Input
-                                    id="bio"  //id aur htmlfor match hona chahiye
+                                    id="bio"  
                                     className="col-span-3"
                                     value={input.bio}
                                     name="bio"
@@ -135,7 +135,7 @@ const UpdateProfiledDialogue = ({ open, setOpen }) => {
                             <div className='grid grid-cols-4 items-center gap-4'>
                                 <Label htmlFor="skills" className="text-right">Skills</Label>
                                 <Input
-                                    id="skills"  //id aur htmlfor match hona chahiye
+                                    id="skills"  
                                     className="col-span-3"
                                     value={input.skills}
                                     name="skills"
@@ -147,7 +147,7 @@ const UpdateProfiledDialogue = ({ open, setOpen }) => {
                             <div className='grid grid-cols-4 items-center gap-4'>
                                 <Label htmlFor="file" className="text-right">Resume</Label>
                                 <Input
-                                    id="file"  //id aur htmlfor match hona chahiye
+                                    id="file"  
                                     type="file"
                                     accept="application/pdf"
                                     className="col-span-3"

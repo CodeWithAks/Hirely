@@ -16,7 +16,7 @@ export const postJob = async(req,res) => {
         const job = await Job.create({
             title,
             description,
-            requirements:requirements.split(","), //kyunki vo string hogi
+            requirements:requirements.split(","), 
             salary:Number(salary),
             location,
             jobType,

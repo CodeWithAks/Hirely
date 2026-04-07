@@ -8,7 +8,7 @@ cloudinary.config({
     api_secret:process.env.API_SECRET
 });
 
-console.log("CLOUD:", process.env.CLOUD_NAME); //nothingprinting
+console.log("CLOUD:", process.env.CLOUD_NAME); 
 console.log("TEST:", process.env.MONGO_URI);
 
 

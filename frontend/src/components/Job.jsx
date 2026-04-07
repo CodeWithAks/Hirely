@@ -9,7 +9,6 @@ import { addToSaved, removeFromSaved } from '@/redux/jobSlice'
 
 const Job = ({ job }) => {
   const navigate = useNavigate();
-  // const jobId = "awufgebg8hv";
 
   const daysAgoFunction = (mongodbTime) => {
     const createdAt = new Date(mongodbTime);
@@ -60,7 +59,6 @@ const Job = ({ job }) => {
 
       <div className='flex items-center gap-4 mt-4'>
         <Button variant="outline" onClick={() => navigate(`/description/${job._id}`)}>Details</Button>
-        {/* <Button className="bg-purple-600 hover:bg-purple-700">Save For Later</Button> */}
         <Button
           className={`hover:bg-purple-700 ${isSaved ? "bg-green-600" : "bg-purple-600"}`}
           onClick={() => {

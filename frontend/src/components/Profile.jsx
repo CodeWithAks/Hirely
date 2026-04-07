@@ -59,7 +59,7 @@ const Profile = () => {
         {/* Divider */}
         <div className="border-t my-6" />
 
-        {/* Mail and contact info */}
+        {/* contact info */}
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
           <div className='flex items-center gap-3 text-gray-700'>
             <Mail size={18} />

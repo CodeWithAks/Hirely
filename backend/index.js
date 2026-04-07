@@ -9,6 +9,11 @@ import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
 import "./utils/cloudinary.js";
 
+import dns from "dns";
+
+// Change DNS
+dns.setServers(["1.1.1.1","8.8.8.8"]);
+
 dotenv.config({});
 
 const app = express();
